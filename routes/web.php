@@ -1,0 +1,67 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ControllerApi;
+use App\Http\Controllers\AuthController;
+
+/*
+|--------------------------------------------------------------------------
+
+| Web Routes
+|--------------------------------------------------------------------------
+
+*/
+
+Route::get('/', function () {
+    return redirect()->route('login')->with('message', '¡Bienvenido de nuevo!');
+});
+
+
+Route::middleware(['guest'])->group(function () {
+    // Vista de inicio de sesión
+    Route::get('/login', function () {
+        return view('login');
+    })->name('login');
+
+    // Procesar inicio de sesión
+    Route::post('/login', [AuthController::class, 'login'])->name('login.process');
+});
+
+
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+
+
+
+Route::get('/homebyte', [ControllerApi::class, 'homebyte'])->name('homebyte');
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/usuarios', [ControllerApi::class, 'usuarios'])->name('usuarios');
+
+    Route::get('/usuarios/{id}', [ControllerApi::class, 'usuarios_detalle'])->name('usuarios.detalle');
+    Route::get('/usuarios/{id}/editar', [ControllerApi::class, 'usuarios_editar'])->name('usuarios.editar');
+    Route::put('/usuarios/{id}', [ControllerApi::class, 'usuarios_salvar'])->name('usuarios.salvar');
+    Route::delete('/usuarios/{id}', [ControllerApi::class, 'usuarios_borrar'])->name('usuarios.borrar');
+
+});
+
+
+Route::get('/usuarios_alta', [ControllerApi::class, 'usuarios_alta'])->name('usuarios.alta');
+Route::post('/usuarios_registrar', [ControllerApi::class, 'usuarios_registrar'])->name('usuarios.registrar');
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/productos', [ControllerApi::class, 'productos'])->name('productos');
+    Route::get('/producto_detalle/{id}', [ControllerApi::class, 'producto_detalle'])->name('producto_detalle');
+    Route::get('/producto_alta', [ControllerApi::class, 'producto_alta'])->name('producto_alta');
+    Route::post('/producto_registrar', [ControllerApi::class, 'producto_registrar'])->name('producto_registrar');
+    Route::get('/producto_editar/{id}', [ControllerApi::class, 'producto_editar'])->name('producto_editar');
+    Route::put('/producto_salvar/{id}', [ControllerApi::class, 'producto_salvar'])->name('producto_salvar');
+    Route::get('/producto_borrar/{id}', [ControllerApi::class, 'producto_borrar'])->name('producto_borrar');
+    
+});
