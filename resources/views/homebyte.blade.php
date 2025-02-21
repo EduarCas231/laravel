@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio - Bytelab</title>
-    <link rel="icon" href="{{ url('img/logo.png') }}" type="image/png">
+    <link rel="icon" href="{{ url('img/bitelogo.png') }}" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -80,6 +80,28 @@
         .collapse-content.active {
             display: block;
         }
+
+        .content-wrapper {
+            display: flex;
+            align-items: flex-start; /* Alinea los elementos al inicio */
+            gap: 20px; /* Espacio entre el texto y la imagen */
+        }
+
+        .img1 {
+            flex: 0 0 auto; /* No permite que la imagen crezca o se reduzca */
+            width: 300px;
+            height: 200px;
+        }
+
+        .img1 img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px; /* Opcional: para darle un borde redondeado a la imagen */
+        }
+
+        .text-content {
+            flex: 1; /* Permite que el texto ocupe el espacio restante */
+        }
     </style>
 
 </head>
@@ -112,15 +134,23 @@
     </nav>
 
     <div class="container mt-5 pt-5">
-        <h3>Antecedentes de la organización</h3>
-        <p>Bytelab es una empresa relativamente nueva, conformada por ingenieros, diseñadores y expertos en ciberseguridad con experiencia en el desarrollo de hardware y software de vanguardia...</p>
+        <div class="content-wrapper">
+            <div class="text-content">
+                <h3>Antecedentes de la organización</h3>
+                <p>Bytelab es una empresa relativamente nueva, conformada por ingenieros, diseñadores y expertos en ciberseguridad con experiencia en el desarrollo de hardware y software de vanguardia...</p>
 
-        <h3>Misión, Visión y Objetivos de la Organización</h3>
-        <h4>Misión:</h4>
-        <p>En Bytelab, nuestra misión es diseñar y desarrollar soluciones innovadoras en tecnología que impacten positivamente la vida de nuestros usuarios y contribuyan al progreso de la industria...</p>
+                <h3>Misión, Visión y Objetivos de la Organización</h3>
+                <h4>Misión:</h4>
+                <p>En Bytelab, nuestra misión es diseñar y desarrollar soluciones innovadoras en tecnología que impacten positivamente la vida de nuestros usuarios y contribuyan al progreso de la industria...</p>
 
-        <h4>Visión:</h4>
-        <p>Buscamos posicionarnos como una empresa líder en el mercado regional y nacional, ofreciendo productos y servicios de la más alta calidad, asegurando la satisfacción total de nuestros clientes...</p>
+                <h4>Visión:</h4>
+                <p>Buscamos posicionarnos como una empresa líder en el mercado regional y nacional, ofreciendo productos y servicios de la más alta calidad, asegurando la satisfacción total de nuestros clientes...</p>
+            </div>
+
+            <div class="img1">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHNQI3Rvnus787ysGvS4SP3sBBWqCmLnNa4w&s" alt="Descripción de la imagen">
+            </div>
+        </div>
 
         <div class="index-section">
             <p class="collapse-link" onclick="toggleCollapse('productos')">Productos y Servicios</p>

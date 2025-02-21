@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\ControllerApi;
 use App\Http\Controllers\AuthController;
 
@@ -15,7 +13,7 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return redirect()->route('login')->with('message', '¡Bienvenido de nuevo!');
+    return redirect()->route('homebyte');
 });
 
 
