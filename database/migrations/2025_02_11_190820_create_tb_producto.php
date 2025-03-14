@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer("Noserie_p");
             $table->string('modelo_p');
             $table->string('region_p');
+            $table->string('detalle_p');
             $table->text('foto_p');
             $table->timestamps();
         });

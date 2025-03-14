@@ -24,6 +24,7 @@ class Usuarios extends Model implements Authenticatable
         'tipo_u',
         'telefono_u',
         'direccion_u',
+        'genero_u',
         'fecha_u',
         'foto_u',
     ];

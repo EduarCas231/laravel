@@ -1,0 +1,74 @@
+/* Estilos generales */
+:root {
+    --background-color: #1a1a1a; /* Fondo más oscuro */
+    --text-color: #e0e0e0; /* Texto claro */
+    --primary-color: #436fb1; /* Azul cobalto */
+    --primary-hover: #365a8c; /* Azul cobalto más oscuro */
+    --card-bg: #2c2c2c; /* Fondo de tarjetas más oscuro */
+    --input-bg: #3c3c3c; /* Fondo de inputs */
+    --input-border: #436fb1; /* Borde de inputs */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    padding-top: 70px;
+}
+
+.container {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    margin-top: 80px;
+    max-width: 600px;
+}
+
+h3 {
+    color: var(--primary-color);
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.form-floating {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    background-color: var(--input-bg); /* Fondo gris oscuro */
+    color: var(--text-color); /* Texto claro */
+    border: 1px solid var(--input-border); /* Borde azul cobalto */
+    border-radius: 5px;
+}
+
+.form-control:focus {
+    background-color: var(--input-bg); /* Mantener el fondo gris oscuro al enfocar */
+    color: var(--text-color); /* Texto claro */
+    border-color: var(--primary-color); /* Borde azul cobalto al enfocar */
+    box-shadow: 0 0 5px var(--primary-color); /* Sombra azul cobalto al enfocar */
+}
+
+.form-label {
+    color: var(--text-color); /* Texto claro */
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.text-danger {
+    color: #dc3545; /* Color rojo para mensajes de error */
+}
+
+.text-muted {
+    color: #6c757d; /* Color gris para texto secundario */
+}

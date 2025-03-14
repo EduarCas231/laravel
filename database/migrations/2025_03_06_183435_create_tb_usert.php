@@ -6,19 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('usuarios', function (Blueprint $table) {
-            $table->id('id_usuarios');
+        Schema::create('tb_usert', function (Blueprint $table) {
+            $table->id('id_usert');
             $table->string('nombre_u');
             $table->string('correo_u');
-            $table->string('contraseña_u');
-            $table->boolean('tipo_u');
-            $table->string('telefono_u');
             $table->string('direccion_u');
-            $table->string('genero_u');
-            $table->date('fecha_u');
+            $table->string('estado_u');
+            $table->string('municipio_u');
             $table->text('foto_u');
             
             $table->timestamps();
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('tb_usert');
     }
 };

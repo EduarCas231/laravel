@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ControllerApi;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ExcellController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,26 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/producto_registrar', [ControllerApi::class, 'producto_registrar'])->name('producto_registrar');
     Route::get('/producto_editar/{id}', [ControllerApi::class, 'producto_editar'])->name('producto_editar');
     Route::put('/producto_salvar/{id}', [ControllerApi::class, 'producto_salvar'])->name('producto_salvar');
-    Route::get('/producto_borrar/{id}', [ControllerApi::class, 'producto_borrar'])->name('producto_borrar');
+    Route::delete('/producto_borrar/{id}', [ControllerApi::class, 'producto_borrar'])->name('producto_borrar');
     
 });
+
+
+
+use App\Exports\ProductosExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+Route::get('exportar-productos', function () {
+    return Excel::download(new ProductosExport, 'productos.xlsx');
+})->name('exportar.productos');
+
+
+
+/////////////////////////////////////////////////////
+Route::get('/usert', [ControllerApi::class, 'usert'])->name('usert');
+Route::get('/usert_alta', [ControllerApi::class, 'usert_alta'])->name('usert.alta');
+Route::post('/usert_registrar', [ControllerApi::class, 'usert_registrar'])->name('usert.registrar');
+Route::delete('/usert_borrar/{id}', [ControllerApi::class, 'usert_borrar'])->name('usert.borrar');
+
+
+Route::get('/exportar-usuarios', [ExcellController::class, 'exportarUsuarios'])->name('exportar.usuarios');

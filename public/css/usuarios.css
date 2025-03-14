@@ -1,0 +1,92 @@
+/* Estilos generales */
+:root {
+    --background-color: #1a1a1a; /* Fondo más oscuro */
+    --text-color: #e0e0e0; /* Texto claro */
+    --primary-color: #436fb1; /* Azul cobalto */
+    --primary-hover: #365a8c; /* Azul cobalto más oscuro */
+    --footer-bg: #121212; /* Fondo del footer más oscuro */
+    --footer-text: #436fb1; /* Azul cobalto */
+    --card-bg: #2c2c2c; /* Fondo de tarjetas más oscuro */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding-top: 70px;
+}
+
+/* Barra de Navegación */
+.navbar {
+    background-color: var(--footer-bg); /* Fondo oscuro */
+    border-bottom: 2px solid var(--primary-color); /* Borde inferior en azul cobalto */
+}
+
+.navbar-brand, .nav-link {
+    color: var(--text-color) !important; /* Texto claro */
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important; /* Hover en azul cobalto */
+}
+
+.btn-danger {
+    background-color: var(--primary-color); /* Botón de Cerrar Sesión en azul cobalto */
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: var(--primary-hover); /* Hover un poco más oscuro */
+}
+
+/* Tarjetas de Usuarios */
+.user-card {
+    background-color: var(--card-bg); /* Fondo de tarjetas más oscuro */
+    border: 1px solid var(--primary-color); /* Borde en azul cobalto */
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px 0;
+}
+
+.user-card img {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.user-card h5 {
+    color: var(--primary-color); /* Título en azul cobalto */
+}
+
+.user-card p {
+    color: var(--text-color); /* Texto claro */
+}
+
+/* Footer */
+footer {
+    background-color: var(--footer-bg); /* Fondo del footer más oscuro */
+    color: var(--footer-text); /* Texto en azul cobalto */
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+.social-icons a {
+    color: var(--footer-text); /* Iconos en azul cobalto */
+    margin: 0 10px;
+    font-size: 1.5rem;
+}
+
+.social-icons a:hover {
+    color: var(--primary-hover); /* Hover un poco más oscuro */
+}
+
+/* Botones Primarios */
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}

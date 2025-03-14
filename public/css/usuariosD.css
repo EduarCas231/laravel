@@ -1,0 +1,114 @@
+
+:root {
+    --background-color: #1a1a1a; /* Fondo más oscuro */
+    --text-color: #e0e0e0; /* Texto claro */
+    --primary-color: #436fb1; /* Azul cobalto */
+    --primary-hover: #365a8c; /* Azul cobalto más oscuro */
+    --footer-bg: #121212; /* Fondo del footer más oscuro */
+    --footer-text: #436fb1; /* Azul cobalto */
+    --card-bg: #2c2c2c; /* Fondo de tarjetas más oscuro */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    padding-top: 70px;
+}
+
+.container {
+    background-color: var(--card-bg); /* Fondo gris oscuro */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    margin-top: 80px;
+    max-width: 600px; /* Ancho máximo para centrar el contenido */
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+   
+    margin: 0 auto 20px; /* Centrar la imagen */
+    display: block;
+}
+
+h3, h5 {
+    color: var(--primary-color); /* Color azul cobalto para los títulos */
+    text-align: center;
+    font-weight: 600; /* Tipografía semibold */
+}
+
+.user-info {
+    background-color: var(--card-bg); /* Fondo gris oscuro */
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    border: 1px solid var(--primary-color); /* Borde azul cobalto */
+}
+
+.user-info p {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: var(--text-color); /* Texto claro */
+}
+
+.user-info b {
+    color: var(--primary-color); /* Color azul cobalto para las etiquetas */
+    font-weight: 600; /* Tipografía semibold */
+}
+
+.btn-success {
+    background-color: var(--primary-color); /* Botón azul cobalto */
+    border-color: var(--primary-color);
+    font-weight: 600;
+    width: 100%; /* Botón de ancho completo */
+    max-width: 200px; /* Ancho máximo */
+    margin: 0 auto; /* Centrar el botón */
+    display: block;
+}
+
+.btn-success:hover {
+    background-color: var(--primary-hover); /* Color azul cobalto más oscuro al pasar el mouse */
+    border-color: var(--primary-hover);
+}
+
+/* Barra de Navegación */
+.navbar {
+    background-color: var(--footer-bg); /* Fondo oscuro */
+    border-bottom: 2px solid var(--primary-color); /* Borde inferior en azul cobalto */
+}
+
+.navbar-brand, .nav-link {
+    color: var(--text-color) !important; /* Texto claro */
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important; /* Hover en azul cobalto */
+}
+
+/* Footer */
+footer {
+    background-color: var(--footer-bg); /* Fondo del footer más oscuro */
+    color: var(--footer-text); /* Texto en azul cobalto */
+    padding: 10px 0; /* Padding reducido */
+    margin-top: 20px; /* Margen superior reducido */
+    text-align: center;
+}
+
+.footer-container {
+    max-width: 400px; /* Ancho máximo reducido */
+    margin: 0 auto; /* Centrar el footer */
+}
+
+.social-icons a {
+    color: var(--footer-text); /* Iconos en azul cobalto */
+    margin: 0 10px;
+    font-size: 1.2rem; /* Tamaño de iconos reducido */
+}
+
+.social-icons a:hover {
+    color: var(--primary-hover); /* Hover un poco más oscuro */
+}

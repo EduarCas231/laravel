@@ -1,0 +1,123 @@
+/* Estilos generales */
+:root {
+    --background-color: #1a1a1a; /* Fondo más oscuro */
+    --text-color: #e0e0e0; /* Texto claro */
+    --primary-color: #436fb1; /* Azul cobalto */
+    --primary-hover: #365a8c; /* Azul cobalto más oscuro */
+    --card-bg: #2c2c2c; /* Fondo de tarjetas más oscuro */
+    --input-bg: #3c3c3c; /* Fondo de inputs */
+    --input-border: #436fb1; /* Borde de inputs */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    padding-top: 70px;
+}
+
+.container {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    margin-top: 80px;
+    max-width: 600px;
+}
+
+h3 {
+    color: var(--primary-color);
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.form-floating {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--input-border);
+    border-radius: 5px;
+}
+
+.form-control:focus {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px var(--primary-color);
+}
+
+.form-label {
+    color: var(--text-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    font-weight: 600;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.password-strength {
+    height: 5px;
+    width: 10%;
+    background: gray;
+    margin-top: 5px;
+    border-radius: 3px;
+}
+
+.password-strength.red {
+    background: red;
+}
+
+.password-strength.orange {
+    background: orange;
+}
+
+.password-strength.green {
+    background: green;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-color);
+}
+
+.password-container {
+    position: relative;
+}
+
+.form-text {
+    color: #6c757d;
+}
+
+.text-danger {
+    color: #dc3545;
+}
+
+.text-muted {
+    color: #6c757d;
+}

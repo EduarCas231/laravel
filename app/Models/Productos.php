@@ -17,6 +17,7 @@ class Productos extends Model
         'Noserie_p',        
         'modelo_p',
         'region_p',
+        'detalle_p',
         'foto_p',
     ];
 }

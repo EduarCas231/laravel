@@ -1,0 +1,26 @@
+body { 
+    background-color: #000; 
+    color: #fff;
+    font-family: sans-serif;
+}
+.navbar-brand img {
+    border-radius: 50%;
+}
+.navbar-toggler {
+    border: none;
+}
+.card {
+    margin-bottom: 20px;
+    background-color: #1c1c1c;
+    border: none;
+}
+.card-body {
+    color: #fff;
+}
+.btn-primary {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.btn-primary:hover {
+    background-color: #218838;
+}

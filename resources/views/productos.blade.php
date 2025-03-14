@@ -9,122 +9,10 @@
     <link rel="shortcut icon" href="{{ asset('img/logo1.jpeg') }}" type="image/jpeg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Estilos generales */
-        :root {
-            --background-color: #1a1a1a; /* Fondo más oscuro */
-            --text-color: #e0e0e0; /* Texto claro */
-            --primary-color: #436fb1; /* Azul cobalto */
-            --primary-hover: #365a8c; /* Azul cobalto más oscuro */
-            --footer-bg: #121212; /* Fondo del footer más oscuro */
-            --footer-text: #436fb1; /* Azul cobalto */
-            --card-bg: #2c2c2c; /* Fondo de tarjetas más oscuro */
-        }
-
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            padding-top: 70px;
-        }
-
-        /* Barra de Navegación */
-        .navbar {
-            background-color: var(--footer-bg); /* Fondo oscuro */
-            border-bottom: 2px solid var(--primary-color); /* Borde inferior en azul cobalto */
-        }
-
-        .navbar-brand, .nav-link {
-            color: var(--text-color) !important; /* Texto claro */
-        }
-
-        .nav-link:hover {
-            color: var(--primary-color) !important; /* Hover en azul cobalto */
-        }
-
-        .btn-danger {
-            background-color: var(--primary-color); /* Botón de Cerrar Sesión en azul cobalto */
-            border: none;
-        }
-
-        .btn-danger:hover {
-            background-color: var(--primary-hover); /* Hover un poco más oscuro */
-        }
-
-        /* Tarjetas de Productos */
-        .card {
-            background-color: var(--card-bg); /* Fondo de tarjetas más oscuro */
-            border: 1px solid var(--primary-color); /* Borde en azul cobalto */
-            border-radius: 10px;
-            transition: transform 0.2s;
-        }
-
-        .card:hover {
-            transform: scale(1.05); /* Efecto de escala al pasar el mouse */
-        }
-
-        .card-title {
-            color: var(--primary-color); /* Título en azul cobalto */
-        }
-
-        .card-text {
-            color: var(--text-color); /* Texto claro */
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--footer-bg); /* Fondo del footer más oscuro */
-            color: var(--footer-text); /* Texto en azul cobalto */
-            padding: 20px 0;
-            margin-top: 40px;
-        }
-
-        .social-icons a {
-            color: var(--footer-text); /* Iconos en azul cobalto */
-            margin: 0 10px;
-            font-size: 1.5rem;
-        }
-
-        .social-icons a:hover {
-            color: var(--primary-hover); /* Hover un poco más oscuro */
-        }
-
-        /* Botones Primarios */
-        .btn-primary {
-            background-color: var(--primary-color);
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-        }
-
-        /* Formularios y Barras de Búsqueda */
-        .form-control {
-            background-color: var(--card-bg); /* Fondo más oscuro */
-            border: 1px solid var(--primary-color);
-            border-radius: 5px;
-            color: var(--text-color); /* Texto claro */
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-hover);
-            box-shadow: 0 0 5px rgba(67, 111, 177, 0.5);
-        }
-
-        /* Efectos de Hover y Transiciones */
-        .nav-link, .btn, .card {
-            transition: all 0.3s ease;
-        }
-
-        /* Sombras y Profundidad */
-        .navbar, .card, .btn {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/producto.css') }}">
 </head>
 
 <body>
-    <!-- Barra de Navegación -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('productos') }}">
@@ -141,18 +29,15 @@
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="{{ route('homebyte') }}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('productos') }}">Productos</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('usuarios') }}">Usuarios</a></li>
-                        
                     </ul>
                 </div>
             </div>
-           
             <div class="ms-auto">
-                
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
-                    
                     <button type="submit" class="btn btn-danger btn-sm">Cerrar Sesión</button>
                 </form>
             </div>
@@ -160,18 +45,25 @@
     </nav>
 
     <div class="text-end mb-4">
-            @if(auth()->check())
-                <p>Tipo de usuario: {{ auth()->user()->tipo_u }}</p>
-                @if(auth()->user()->tipo_u == 1) 
-                <a href="{{ route('producto_alta') }}" class="btn btn-success mb-3">Nuevo Registro de producto</a>   
-                    
+        @if(auth()->check())
+            <p>Tipo de usuario: 
+                @if(auth()->user()->tipo_u == 1)
+                    <strong>Administrador</strong>
                 @else
-                    <p>No tienes permiso para agregar productos.</p>
+                    <strong> Usuario</strong>
                 @endif
+            </p>
+            @if(auth()->user()->tipo_u == 1) 
+                <a href="{{ route('producto_alta') }}" class="btn btn-success mb-3">Nuevo Registro de producto</a>
+                <a href="{{ route('exportar.productos') }}" class="btn btn-info mb-3">Exportar a Excel</a>   
             @else
-                <p>No estás autenticado.</p>
+                <p></p>
             @endif
-        </div>
+        @else
+            <p>No estás autenticado.</p>
+        @endif
+    </div>
+
     <!-- Contenido Principal -->
     <div class="container mt-5 pt-5">
         <h3>Productos</h3>
@@ -187,21 +79,15 @@
             </div>
         </form>
 
-
-
         <!-- Tarjetas de Productos -->
         <div class="row">
             @foreach($productos as $producto)
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="card">
-                        <img src="{{ url('img/images/' . ($producto['foto_p'] ?? 'def.avif')) }}" class="card-img-top" alt="Imagen del producto">
+                        <img src="{{ asset($producto['foto_p']) }}" alt="Imagen del producto"> 
                         <div class="card-body">
                             <h5 class="card-title">Producto: {{ $producto['name_p'] }}</h5>
-                            <p class="card-text">Marca: {{ $producto['marca_p'] }}</p>
-                            <p class="card-price">Precio: ${{ number_format($producto['precio_p'], 2, '.', ',') }}</p>
-                            <p class="card-text">Stock: {{ $producto['stock_p'] }}</p>
                             <p class="card-text">Detalle: {{ $producto['detalle_p'] }}</p>
-
                             <a href="{{ route('producto_detalle', ['id' => $producto['id_productos']]) }}" class="btn btn-primary">Ver detalles</a>
 
                             @if(auth()->check() && auth()->user()->tipo_u == 1) 
@@ -211,6 +97,11 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+
+        <!-- Enlaces de Paginación -->
+        <div class="d-flex justify-content-center mt-4">
+            {{ $productos->links('vendor.pagination.simple-numbers') }}
         </div>
     </div>
 
