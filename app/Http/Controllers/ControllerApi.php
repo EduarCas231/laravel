@@ -115,7 +115,7 @@ class ControllerApi extends Controller
 
     public function usuarios_alta()
     {
-        return view('usuarios_alta');
+        return view('Usuarios_alta');
     }
 
 
