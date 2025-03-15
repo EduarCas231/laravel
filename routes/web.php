@@ -75,12 +75,3 @@ Route::get('exportar-productos', function () {
 })->name('exportar.productos');
 
 
-
-/////////////////////////////////////////////////////
-Route::get('/usert', [ControllerApi::class, 'usert'])->name('usert');
-Route::get('/usert_alta', [ControllerApi::class, 'usert_alta'])->name('usert.alta');
-Route::post('/usert_registrar', [ControllerApi::class, 'usert_registrar'])->name('usert.registrar');
-Route::delete('/usert_borrar/{id}', [ControllerApi::class, 'usert_borrar'])->name('usert.borrar');
-
-
-Route::get('/exportar-usuarios', [ExcellController::class, 'exportarUsuarios'])->name('exportar.usuarios');

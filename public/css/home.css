@@ -14,6 +14,7 @@ body {
     padding-top: 70px;
 }
 
+/* NAVBAR */
 .navbar {
     background-color: var(--footer-bg);
     border-bottom: 2px solid var(--primary-color);
@@ -27,29 +28,13 @@ body {
     color: var(--primary-color) !important;
 }
 
+/* ÍNDICE - SECCIONES DESPLEGABLES */
 .index-section ul {
     padding-left: 20px;
 }
 
 .index-section li {
     margin: 5px 0;
-}
-
-footer {
-    background-color: var(--footer-bg);
-    color: var(--footer-text);
-    padding: 20px 0;
-    margin-top: 40px;
-}
-
-.social-icons a {
-    color: var(--footer-text);
-    margin: 0 10px;
-    font-size: 1.5rem;
-}
-
-.social-icons a:hover {
-    color: var(--primary-hover);
 }
 
 .collapse-link {
@@ -68,24 +53,75 @@ footer {
     display: block;
 }
 
-.content-wrapper {
-    display: flex;
-    align-items: flex-start; /* Alinea los elementos al inicio */
-    gap: 20px; /* Espacio entre el texto y la imagen */
+/* FOOTER */
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 20px 0;
+    margin-top: 40px;
+    text-align: center;
 }
 
+.social-icons a {
+    color: var(--footer-text);
+    margin: 0 10px;
+    font-size: 1.5rem;
+}
+
+.social-icons a:hover {
+    color: var(--primary-hover);
+}
+
+/* CONTENIDO PRINCIPAL */
+.content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* TEXTO */
+.text-content {
+    flex: 1;
+    min-width: 280px;
+    max-width: 600px;
+    text-align: justify;
+}
+
+/* IMAGEN */
 .img1 {
-    flex: 0 0 auto; /* No permite que la imagen crezca o se reduzca */
+    flex: 0 0 auto;
     width: 300px;
-    height: 200px;
+    max-width: 100%;
+    height: auto;
 }
 
 .img1 img {
     width: 100%;
     height: auto;
-    border-radius: 8px; /* Opcional: para darle un borde redondeado a la imagen */
+    border-radius: 8px;
 }
 
-.text-content {
-    flex: 1; /* Permite que el texto ocupe el espacio restante */
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .content-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .text-content {
+        text-align: center;
+    }
+
+    .img1 {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .navbar-brand img {
+        width: 35px;
+    }
 }
