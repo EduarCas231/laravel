@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Session;
+use App\Models\Acceso;
 
 class ControllerApi extends Controller
 {
@@ -385,6 +386,34 @@ class ControllerApi extends Controller
             return back()->withErrors(['error' => 'Error al eliminar el producto']);
         }
     }
+
+
+    public function acceso(Request $request)
+    {
+        $ultimaFecha = $request->query('ultima_fecha');
+    
+        if ($request->ajax()) {
+            // Verificar si hay nuevos accesos después de la última fecha
+            $accesos = Acceso::when($ultimaFecha, function ($query) use ($ultimaFecha) {
+                return $query->where('fecha', '>', $ultimaFecha);
+            })
+            ->orderBy('fecha', 'desc') // Ordenar por fecha descendente
+            ->get();
+    
+            // Si no hay nuevos accesos, devolver una respuesta vacía o un mensaje de espera
+            if ($accesos->isEmpty()) {
+                return response()->json(['waiting' => true]);
+            }
+    
+            // Devolver los accesos nuevos
+            return response()->json($accesos);
+        }
+    
+        $accesos = Acceso::orderBy('fecha', 'desc')->get();
+        return view('acceso', compact('accesos'));
+    }
+    
+    
 
     
 

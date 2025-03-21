@@ -75,3 +75,4 @@ Route::get('exportar-productos', function () {
 })->name('exportar.productos');
 
 
+Route::get('/accesos', [ControllerApi::class, 'acceso']);
