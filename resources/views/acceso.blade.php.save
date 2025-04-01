@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accesos</title>
+    <style>
+        .nuevo-registro {
+        background-color: #fffb96; /* Color de fondo amarillo claro para resaltar */
+        animation: resaltar 3s ease-out; /* Animación para resaltar */
+    }
+
+    @keyframes resaltar {
+        0% {
+            background-color: #fffb96;
+        }
+        100% {
+            background-color: #f9f9f9; /* Vuelve al color normal */
+        }
+    }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .permitido {
+            color: green;
+            font-weight: bold;
+        }
+
+        .denegado {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Registro de Accesos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Acción</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody id="tabla-accesos">
+            @foreach ($accesos as $acceso)
+                <tr>
+                    <td class="{{ $acceso->accion == 'acceso permitido' ? 'permitido' : 'denegado' }}">
+                        {{ ucfirst($acceso->accion) }}
+                    </td>
+                    <td>{{ $acceso->fecha }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let ultimaFecha = "{{ $accesos->first()->fecha ?? '' }}"; // Usar la fecha del último acceso
+
+    function actualizarAccesos() {
+        console.log("Última fecha enviada:", ultimaFecha); // Para depuración
+
+        // Realizar la solicitud AJAX con la última fecha
+        fetch('/accesos' + (ultimaFecha ? `?ultima_fecha=${ultimaFecha}` : ''), {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Datos recibidos:", data); // Para depuración
+
+            if (data.length > 0) {
+                let tbody = document.getElementById("tabla-accesos");
+
+                // Insertar las nuevas filas al principio de la tabla
+                data.forEach(acceso => {
+                    let fila = document.createElement("tr");
+
+                    let tdAccion = document.createElement("td");
+                    tdAccion.textContent = acceso.accion.charAt(0).toUpperCase() + acceso.accion.slice(1);
+                    tdAccion.className = acceso.accion === "acceso permitido" ? "permitido" : "denegado";
+
+                    let tdFecha = document.createElement("td");
+                    tdFecha.textContent = acceso.fecha;
+
+                    fila.appendChild(tdAccion);
+                    fila.appendChild(tdFecha);
+                    tbody.insertBefore(fila, tbody.firstChild); // Insertar al principio de la tabla
+                });
+
+                // Resaltar las nuevas filas (por 3 segundos)
+                let filasNuevas = Array.from(tbody.querySelectorAll('tr')).slice(0, data.length);
+                filasNuevas.forEach(fila => {
+                    fila.classList.add("nuevo-registro");
+                    // Quitar la clase de resaltar después de 3 segundos
+                    setTimeout(() => {
+                        fila.classList.remove("nuevo-registro");
+                    }, 3000);
+                });
+
+                // Actualizar la última fecha con la fecha del último registro recibido
+                ultimaFecha = data[0].fecha;
+            }
+
+            // Volver a intentar en 5 segundos
+            setTimeout(actualizarAccesos, 5000);
+        })
+        .catch(error => console.error("Error al obtener los accesos:", error));
+    }
+
+    // Iniciar el proceso de actualización de accesos
+    actualizarAccesos();
+});
+
+</script>
+
+
+</html>

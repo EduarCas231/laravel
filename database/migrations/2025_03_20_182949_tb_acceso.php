@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('accesos', function (Blueprint $table) {
             $table->id('id_acceso');
-            $table->int('codigo');
+            $table->integer('codigo');
             $table->string('accion');
             $table->timestamp('fecha')->useCurrent();
         });

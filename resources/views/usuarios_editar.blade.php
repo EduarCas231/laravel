@@ -47,13 +47,13 @@
 <body>
     <div class="container mt-5">
         <h3 class="text-primary">Editar Usuario</h3>
-        <form action="{{ route('usuarios.salvar', ['id' => $usuario['id_usuarios']]) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+        <form action="{{ route('usuarios_salvar', ['id' => $usuario['id_usuarios']]) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 
             <div class="mb-4">
                 @if (!empty($usuario['foto_u']))
-                <img src="{{ asset(auth()->user()->foto_u) }}" alt="Foto de {{ auth()->user()->nombre_u }}" width="120px" style=" border-radius:5px;">
+                 <img src="{{ asset($usuario['foto_u']) }}" alt="Foto de {{ $usuario['nombre_u'] }}" width="120px" style="border-radius:5px;">
                 @else
                 <p class="text-muted">Sin foto</p>
                 @endif
@@ -83,7 +83,22 @@
                 <div class="form-text">Dejar en blanco si no deseas cambiar la contraseña.</div>
             </div>
 
-           
+           <div class="form-floating mb-4">
+    @if(auth()->check() && auth()->user()->tipo_u == 1)
+        <!-- Usuarios ADMIN (pueden seleccionar entre "Usuario" y "Administrador") -->
+        <select class="form-select" name="tipo_u" id="tipo_u" required>
+            <option value="" disabled selected>Seleccione tipo</option>
+            <option value="0" {{ (isset($usuario) && $usuario->tipo_u == 0) ? 'selected' : '' }}>Usuario</option>
+            <option value="1" {{ (isset($usuario) && $usuario->tipo_u == 1) ? 'selected' : '' }}>Administrador</option>
+        </select>
+        <label for="tipo_u">Tipo de Usuario</label>
+    @else
+        <!-- Usuarios NO ADMIN (solo ven "Usuario" y no pueden cambiarlo) -->
+        <input type="text" class="form-control" value="Usuario" readonly>
+        <input type="hidden" name="tipo_u" value="0"> <!-- Envía siempre "0" si no es admin -->
+        <label>Tipo de Usuario</label>
+    @endif
+</div>
 
             <div class="form-floating mb-4">
                 <input type="text" class="form-control" name="telefono_u" id="telefono_u" value="{{ old('telefono_u', $usuario['telefono_u']) }}" placeholder="Teléfono" required>

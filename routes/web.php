@@ -42,8 +42,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/usuarios', [ControllerApi::class, 'usuarios'])->name('usuarios');
 
     Route::get('/usuarios/{id}', [ControllerApi::class, 'usuarios_detalle'])->name('usuarios.detalle');
-    Route::get('/usuarios/{id}/editar', [ControllerApi::class, 'usuarios_editar'])->name('usuarios.editar');
-    Route::put('/usuarios/{id}', [ControllerApi::class, 'usuarios_salvar'])->name('usuarios.salvar');
+   
+Route::get('/usuarios_editar/{id}', [ControllerApi::class, 'usuarios_editar'])->name('usuarios_editar');
+Route::put('/usuarios_salvar/{id}', [ControllerApi::class, 'usuarios_salvar'])->name('usuarios_salvar');
+
     Route::delete('/usuarios/{id}', [ControllerApi::class, 'usuarios_borrar'])->name('usuarios.borrar');
 
 });
@@ -75,4 +77,5 @@ Route::get('exportar-productos', function () {
 })->name('exportar.productos');
 
 
-Route::get('/accesos', [ControllerApi::class, 'acceso']);
+// routes/web.php
+Route::get('/accesos', [ControllerApi::class, 'acceso'])->name('accesos');

@@ -10,37 +10,82 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{{ asset('css/usuarios.css') }}">
-    <style>
-        /* Estilos para el botón flotante */
-        .floating-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
+
+ <style>
+    /* Ajustes para pantallas pequeñas */
+    @media (max-width: 768px) {
+        /* Estilo para la tabla */
+        .table-container {
+            overflow-x: auto; /* Permite desplazamiento horizontal */
+            -webkit-overflow-scrolling: touch; /* Mejora la experiencia en dispositivos táctiles */
+        }
+        
+        .table th, .table td {
+            white-space: nowrap; /* Evita que el contenido se rompa en varias líneas */
         }
 
-        /* Estilos para las gráficas dentro del modal */
+        /* Estilos para los contenedores de los gráficos */
         .chart-container {
-            width: 80%;
-            /* Reducir el ancho del contenedor */
-            margin: 10px auto;
-            /* Centrar el contenedor */
-            background-color: #2c2c2c;
-            /* Fondo oscuro */
-            border-radius: 10px;
-            /* Bordes redondeados */
-            padding: 15px;
-            /* Espaciado interno */
+            width: 100%; /* El contenedor ocupa todo el ancho disponible */
+            margin: 0 auto;
+            padding: 10px;
         }
 
+        /* Ajustar la altura de los gráficos */
         .chart-container canvas {
-            max-width: 100%;
-            height: 250px !important;
-            /* Reducir la altura del gráfico */
-            background-color: #2c2c2c;
-            /* Fondo oscuro para el gráfico */
+            height: 200px !important;
         }
-    </style>
+
+        /* Botón flotante de la gráfica */
+        .floating-btn {
+            bottom: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            padding: 0;
+        }
+
+        /* Ajustes para la vista del usuario actual */
+        .current-user-container {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .user-card {
+            padding: 15px;
+        }
+
+        .user-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-card h5 {
+            font-size: 1.2rem;
+        }
+
+        .user-card p {
+            font-size: 0.9rem;
+        }
+
+        .social-icons a {
+            font-size: 1.2rem;
+            margin: 0 10px;
+        }
+    }
+
+    /* Ajustes generales para pantallas más grandes */
+    @media (min-width: 769px) {
+        .table-container {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+    }
+</style>
+ 
 </head>
 
 <body>
@@ -65,6 +110,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{ route('homebyte') }}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('productos') }}">Productos</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('usuarios') }}">Usuarios</a></li>
+			<li class="nav-item"><a class="nav-link" href="{{ route('accesos') }}">Accesos</a></li>
                     </ul>
                 </div>
             </div>
@@ -98,7 +144,7 @@
                 <p><strong>Teléfono:</strong> {{ auth()->user()->telefono_u }}</p>
                 <p><strong>Dirección:</strong> {{ auth()->user()->direccion_u }}</p>
                 <div>
-                    <a href="{{ route('usuarios.editar', ['id' => auth()->user()->id_usuarios]) }}" class="btn btn-success btn-sm" aria-label="Editar tu usuario">Editar</a>
+                    <a href="{{ route('usuarios_editar', ['id' => auth()->user()->id_usuarios]) }}" class="btn btn-success btn-sm" aria-label="Editar tu usuario">Editar</a>
                 </div>
             </div>
         </div>
@@ -140,7 +186,7 @@
                             <a href="{{ route('usuarios.detalle', ['id' => $usuario['id_usuarios']]) }}" class="btn btn-primary btn-sm" aria-label="Ver detalles de {{ $usuario['nombre_u'] }}">Detalle</a>
                             @if(auth()->check())
                             @if(auth()->user()->tipo_u == 1 || auth()->user()->id == $usuario['id_usuarios'])
-                            <a href="{{ route('usuarios.editar', ['id' => $usuario['id_usuarios']]) }}" class="btn btn-success btn-sm" aria-label="Editar usuario {{ $usuario['nombre_u'] }}">Editar</a>
+                            <a href="{{ route('usuarios_editar', ['id' => $usuario['id_usuarios']]) }}" class="btn btn-success btn-sm" aria-label="Editar usuario {{ $usuario['nombre_u'] }}">Editar</a>
                             @endif
                             @if(auth()->user()->tipo_u == 1)
                             <form action="{{ route('usuarios.borrar', ['id' => $usuario['id_usuarios']]) }}" method="POST" class="d-inline">

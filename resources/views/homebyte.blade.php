@@ -36,6 +36,7 @@
                         <li class="nav-item"><a class="nav-link" href="{{ route('homebyte') }}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('productos') }}">Productos</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('usuarios') }}">Usuarios</a></li>
+			<li class="nav-item"><a class="nav-link" href="{{ route('accesos') }}">Accesos</a></li>
                     </ul>
                 </div>
             </div>

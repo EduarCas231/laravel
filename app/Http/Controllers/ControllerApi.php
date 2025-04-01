@@ -22,7 +22,7 @@ class ControllerApi extends Controller
         $buscar = $request->input('buscar', '');
 
         // Llamar a la API para obtener los usuarios
-        $response = Http::get('http://localhost:4000/api/usuarios');
+        $response = Http::get('http://18.220.227.25/usuarios');
 
         if (!$response->successful()) {
             return redirect()->route('error')->with('message', 'Error al consultar la API');
@@ -106,7 +106,7 @@ class ControllerApi extends Controller
         ];
 
         // Llamar a la API para crear el usuario
-        $response = Http::post('http://localhost:4000/api/usuarios', $nuevoUsuario);
+        $response = Http::post('http://18.220.227.25/usuarios', $nuevoUsuario);
         if ($response->successful()) {
             return redirect()->route('login')->with('success', 'Usuario creado correctamente.');
         } else {
@@ -123,7 +123,7 @@ class ControllerApi extends Controller
     public function usuarios_detalle($id)
     {
         // Llamar a la API para obtener el usuario
-        $response = Http::get('http://localhost:4000/api/usuarios/' . $id);
+        $response = Http::get("http://18.220.227.25/usuarios/{$id}");
 
         if ($response->successful()) {
             $usuario = json_decode(json_encode($response->json())); // Convertir array en objeto
@@ -138,7 +138,8 @@ class ControllerApi extends Controller
     public function usuarios_editar($id)
     {
         // Llamar a la API para obtener el usuario
-        $response = Http::get('http://localhost:4000/api/usuarios/' . $id);
+       $response = Http::get("http://18.220.227.25/usuarios/{$id}");
+
         if ($response->successful()) {
             $usuario = $response->json();
             return view('usuarios_editar', compact('usuario'));
@@ -158,12 +159,14 @@ class ControllerApi extends Controller
             'telefono_u' => 'required',
             'direccion_u' => 'required',
             'genero_u' => 'required',
+	    'tipo_u' => 'required',
             'fecha_u' => 'required|date',
             'foto_u' => 'nullable|image|mimes:jpg,png,bmp',
         ]);
 
         // Obtener el usuario actual
-        $response = Http::get('http://localhost:4000/api/usuarios/' . $id);
+        $response = Http::get("http://18.220.227.25/usuarios/{$id}");
+
         if (!$response->successful()) {
             return back()->withErrors(['error' => 'Error al consultar la API']);
         }
@@ -190,15 +193,19 @@ class ControllerApi extends Controller
             'genero_u' => $request->input('genero_u'),
             'fecha_u' => $request->input('fecha_u'),
             'foto_u' => $img2,
+            'tipo_u' => $request->input('tipo_u'),
         ];
 
         // Actualizar contraseña si se proporciona
         if ($request->filled('contraseña_u')) {
             $data['contraseña_u'] = Hash::make($request->input('contraseña_u'));
-        }
+        }else {
+	$data['contraseña_u'] = $usuario['contraseña_u'];
+	}
 
         // Llamar a la API para actualizar el usuario
-        $response = Http::put('http://localhost:4000/api/usuarios/' . $id, $data);
+       $response = Http::put("18.220.227.25/usuarios/actualizar_completo/{$id}", $data);
+
         if ($response->successful()) {
             return redirect()->route('usuarios.detalle', ['id' => $id])->with('success', 'Usuario actualizado correctamente.');
         } else {
@@ -209,7 +216,8 @@ class ControllerApi extends Controller
     public function usuarios_borrar($id)
     {
         // Llamar a la API para eliminar el usuario
-        $response = Http::delete('http://localhost:4000/api/usuarios/' . $id);
+        $response = Http::delete("http://18.220.227.25/usuarios/{$id}");
+
         if ($response->successful()) {
             return redirect()->route('usuarios')->with('success', 'Usuario eliminado correctamente.');
         } else {
@@ -224,7 +232,7 @@ class ControllerApi extends Controller
     $buscar = $request->input('buscar', '');
 
     // Consultar la API externa
-    $response = Http::get('http://localhost:4000/api/productos');
+    $response = Http::get('http://18.220.227.25/productos');
     if ($response->successful()) {
         $productos = $response->json();
 
@@ -264,7 +272,7 @@ class ControllerApi extends Controller
 }
     public function producto_detalle($id)
     {
-        $response = Http::get('http://localhost:4000/api/productos/' . $id);
+       $response = Http::get("http://18.220.227.25/productos/{$id}");
         if ($response->successful()) {
             $producto = $response->json();
             return view('producto_detalle', compact('producto'));
@@ -310,7 +318,7 @@ class ControllerApi extends Controller
             'foto_p'    => $img2,
         ];
 
-        $response = Http::post('http://localhost:4000/api/productos', $nuevoProducto);
+        $response = Http::post('http://18.220.227.25/productos', $nuevoProducto);
         if ($response->successful()) {
             return redirect()->route('productos')->with('success', 'Producto creado correctamente.');
         } else {
@@ -319,7 +327,8 @@ class ControllerApi extends Controller
     }
     public function producto_editar($id)
     {
-        $response = Http::get('http://localhost:4000/api/productos/' . $id);
+        $response = Http::get("http://18.220.227.25/productos/{$id}");
+
         if ($response->successful()) {
             $producto = $response->json();
             return view('producto_editar', compact('producto'));
@@ -340,7 +349,8 @@ class ControllerApi extends Controller
         ]);
 
         // Llamar a la API para obtener el producto actual
-        $response = Http::get('http://localhost:4000/api/productos/' . $id);
+        $response = Http::get("http://18.220.227.25/productos/{$id}");
+
         if (!$response->successful()) {
             return back()->withErrors(['error' => 'Error al consultar la API']);
         }
@@ -368,7 +378,8 @@ class ControllerApi extends Controller
             'foto_p'    => $img2,
         ];
 
-        $response = Http::put('http://localhost:4000/api/productos/' . $id, $data);
+       $response = Http::put("http://18.220.227.25/productos/{$id}", $data);
+
         if ($response->successful()) {
             return redirect()->route('producto_detalle', ['id' => $id])->with('success', 'Producto actualizado correctamente.');
         } else {
@@ -379,7 +390,7 @@ class ControllerApi extends Controller
     public function producto_borrar($id)
     {
         // Llamar a la API para eliminar el producto
-        $response = Http::delete('http://localhost:4000/api/productos/' . $id);
+       $response = Http::delete("http://18.220.227.25/productos/{$id}");
         if ($response->successful()) {
             return redirect()->route('productos')->with('success', 'Producto eliminado correctamente.');
         } else {
