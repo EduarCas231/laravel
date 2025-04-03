@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProductosExport;
 use App\Exports\UsertExport;
-
+use App\Exports\AccesosExport;
 
 class ExcellController extends Controller
 {
@@ -29,4 +29,14 @@ class ExcellController extends Controller
         return Excel::download(new UsertExport, 'usuarios.xlsx');
     }
 
+    /**
+     * Exporta los accesos a un archivo Excel.
+     *
+     * @return \Maatwebsite\Excel\BinaryFileResponse
+     */
+    public function exportarAccesos()
+    {
+        return Excel::download(new AccesosExport, 'accesos.xlsx');
+    }
+    
 }

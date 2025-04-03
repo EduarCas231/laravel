@@ -1,171 +1,258 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Usuario</title>
     <link rel="icon" href="{{ url('img/bitelogo.png') }}" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/usuarioAL.css') }}">
-    <style>
-        /* Estilo para la barra de seguridad de la contraseña */
-        .password-strength {
-            height: 5px;
-            width: 10%;
-            background: gray;
-            margin-top: 5px;
-            border-radius: 3px;
-        }
-
-        .password-strength.red {
-            background: red;
-        }
-
-        .password-strength.orange {
-            background: orange;
-        }
-
-        .password-strength.green {
-            background: green;
-        }
-
-        /* Estilo para el botón de mostrar contraseña */
-        .toggle-password {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        .password-container {
-            position: relative;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/usuarioAl.css') }}">
 </head>
-
 <body>
-    <div class="container mt-5">
-        <h3 class="text-primary">Registro de Usuario</h3>
+    <div class="container">
+        <div class="form-header">
+            <h3><i class="fas fa-user-plus"></i> Registro de Usuario</h3>
+            <p>Complete el formulario para crear su cuenta</p>
+        </div>
+        
         <form id="registroForm" action="{{ route('usuarios.registrar') }}" method="POST" enctype="multipart/form-data" onsubmit="return validarFormulario()">
             @csrf
 
             <!-- Foto -->
-            <div class="form-floating mb-4">
-                <input type="file" class="form-control" name="foto_u" id="foto_u">
-                <label for="foto_u">Foto</label>
-                <div class="text-danger" id="error_foto"></div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-icon">
+                        <i class="fas fa-camera"></i>
+                    </span>
+                    <div class="file-input-container">
+                        <input type="file" class="file-input" name="foto_u" id="foto_u" accept=".jpg,.png,.bmp">
+                        <label for="foto_u" class="file-input-label">
+                            <span id="file-name">Seleccionar foto de perfil</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="text-danger" id="error_foto"><i class="fas fa-exclamation-circle"></i></div>
             </div>
 
             <!-- Nombre -->
-            <div class="form-floating mb-4">
-                <input type="text" class="form-control" name="nombre_u" id="nombre_u" placeholder="Nombre" required>
-                <label for="nombre_u">Nombre</label>
-                <div class="text-danger" id="error_nombre"></div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-icon">
+                        <i class="fas fa-user"></i>
+                    </span>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="nombre_u" id="nombre_u" placeholder="Nombre" required>
+                        <label for="nombre_u">Nombre completo</label>
+                    </div>
+                </div>
+                <div class="text-danger" id="error_nombre"><i class="fas fa-exclamation-circle"></i></div>
             </div>
 
             <!-- Correo -->
-            <div class="form-floating mb-4">
-                <input type="email" class="form-control" name="correo_u" id="correo_u" placeholder="Correo" required>
-                <label for="correo_u">Correo</label>
-                <div class="text-danger" id="error_correo"></div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-icon">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                    <div class="form-floating">
+                        <input type="email" class="form-control" name="correo_u" id="correo_u" placeholder="Correo" required>
+                        <label for="correo_u">Correo electrónico</label>
+                    </div>
+                </div>
+                <div class="text-danger" id="error_correo"><i class="fas fa-exclamation-circle"></i></div>
             </div>
 
             <!-- Contraseña -->
-            <div class="form-floating mb-4 password-container">
-                <input type="password" class="form-control" name="contraseña_u" id="contraseña_u" placeholder="Contraseña" required oninput="actualizarBarra()">
-                <label for="contraseña_u">Contraseña</label>
-                <span class="toggle-password" onclick="togglePassword('contraseña_u')">&#128065;</span>
-                <div id="password-strength-bar" class="password-strength"></div>
-                <div id="error_contraseña" class="text-danger"></div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-icon">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <div class="form-floating password-container">
+                        <input type="password" class="form-control" name="contraseña_u" id="contraseña_u" placeholder="Contraseña" required oninput="actualizarBarra()">
+                        <label for="contraseña_u">Contraseña</label>
+                        <button type="button" class="toggle-password" onclick="togglePassword('contraseña_u')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="password-strength-container">
+                    <div id="password-strength-bar" class="password-strength"></div>
+                </div>
+                <div class="password-strength-text" id="password-strength-text"></div>
+                <div id="error_contraseña" class="text-danger"><i class="fas fa-exclamation-circle"></i></div>
             </div>
 
             <!-- Confirmar Contraseña -->
-            <div class="form-floating mb-4 password-container">
-                <input type="password" class="form-control" name="contraseña_u_confirmation" id="confirmar_contraseña_u" placeholder="Confirmar Contraseña" required oninput="actualizarBarraConfirmar()">
-                <label for="confirmar_contraseña_u">Confirmar Contraseña</label>
-                <span class="toggle-password" onclick="togglePassword('confirmar_contraseña_u')">&#128065;</span>
-                <div id="password-strength-bar-confirmar" class="password-strength"></div>
-                <div id="error_confirmar_contraseña" class="text-danger"></div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-icon">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    <div class="form-floating password-container">
+                        <input type="password" class="form-control" name="contraseña_u_confirmation" id="confirmar_contraseña_u" placeholder="Confirmar Contraseña" required oninput="actualizarBarraConfirmar()">
+                        <label for="confirmar_contraseña_u">Confirmar contraseña</label>
+                        <button type="button" class="toggle-password" onclick="togglePassword('confirmar_contraseña_u')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="password-strength-container">
+                    <div id="password-strength-bar-confirmar" class="password-strength"></div>
+                </div>
+                <div id="error_confirmar_contraseña" class="text-danger"><i class="fas fa-exclamation-circle"></i></div>
             </div>
 
             <!-- Teléfono -->
-            <div class="form-floating mb-4">
-                <input type="text" class="form-control" name="telefono_u" id="telefono_u" placeholder="Teléfono" required>
-                <label for="telefono_u">Teléfono</label>
-                <div class="text-danger" id="error_telefono"></div>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-icon">
+                        <i class="fas fa-phone"></i>
+                    </span>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="telefono_u" id="telefono_u" placeholder="Teléfono" required>
+                        <label for="telefono_u">Teléfono</label>
+                    </div>
+                </div>
+                <div class="text-danger" id="error_telefono"><i class="fas fa-exclamation-circle"></i></div>
             </div>
 
             <!-- Dirección -->
-            <div class="form-floating mb-4">
-                <input type="text" class="form-control" name="direccion_u" id="direccion_u" placeholder="Dirección" required>
-                <label for="direccion_u">Dirección</label>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" name="direccion_u" id="direccion_u" placeholder="Dirección" required>
+                        <label for="direccion_u">Dirección</label>
+                    </div>
+                </div>
             </div>
 
             <!-- Tipo de Usuario -->
-            <div class="form-floating mb-4">
-                <select class="form-select" name="tipo_u" id="tipo_u" required>
-                    <option value="" disabled selected>Seleccione tipo</option>
-                    <option value="0">Usuario</option>
-                </select>
-                <label for="tipo_u">Tipo de Usuario</label>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-icon">
+                        <i class="fas fa-user-tag"></i>
+                    </span>
+                    <div class="form-floating">
+                        <select class="form-select" name="tipo_u" id="tipo_u" required>
+                            <option value="" disabled selected>Seleccione tipo</option>
+                            <option value="0">Usuario</option>
+                        </select>
+                        <label for="tipo_u">Tipo de Usuario</label>
+                    </div>
+                </div>
             </div>
 
-
-            <div class="form-floating mb-4">
-                <select class="form-select" name="genero_u" id="genero_u" required>
-                    <option value="1">Hombre</option>
-                    <option value="0">Mujer</option>
-                </select>
-                <label for="genero_u">Género</label>
+            <!-- Género -->
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-icon">
+                        <i class="fas fa-venus-mars"></i>
+                    </span>
+                    <div class="form-floating">
+                        <select class="form-select" name="genero_u" id="genero_u" required>
+                            <option value="1">Hombre</option>
+                            <option value="0">Mujer</option>
+                        </select>
+                        <label for="genero_u">Género</label>
+                    </div>
+                </div>
             </div>
 
             <!-- Fecha de Nacimiento -->
-            <div class="form-floating mb-4">
-                <input type="date" class="form-control" name="fecha_u" id="fecha_u" placeholder="Fecha de Nacimiento" required>
-                <label for="fecha_u">Fecha de Nacimiento</label>
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-icon">
+                        <i class="fas fa-birthday-cake"></i>
+                    </span>
+                    <div class="form-floating">
+                        <input type="date" class="form-control" name="fecha_u" id="fecha_u" placeholder="Fecha de Nacimiento" required>
+                        <label for="fecha_u">Fecha de Nacimiento</label>
+                    </div>
+                </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i> Registrarse
+            </button>
         </form>
     </div>
 
     <script>
+        // Mostrar nombre del archivo seleccionado
+        document.getElementById('foto_u').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Seleccionar foto de perfil';
+            document.getElementById('file-name').textContent = fileName;
+        });
+
         function actualizarBarra() {
             const password = document.getElementById("contraseña_u").value;
             const strengthBar = document.getElementById("password-strength-bar");
-
+            const strengthText = document.getElementById("password-strength-text");
+            
+            // Reset
+            strengthBar.className = "password-strength";
+            strengthText.textContent = "";
+            
+            if (password.length === 0) {
+                strengthBar.style.width = "0%";
+                return;
+            }
+            
             if (password.length < 8) {
-                strengthBar.className = "password-strength red";
-            } else if (password.length >= 8 && password.length <= 10) {
-                strengthBar.className = "password-strength orange";
-            } else if (password.length >= 11 && password.length <= 16) {
-                strengthBar.className = "password-strength green";
+                strengthBar.classList.add("weak");
+                strengthText.textContent = "Débil";
+                strengthText.style.color = "#ef4444";
+            } else if (password.length <= 10) {
+                strengthBar.classList.add("medium");
+                strengthText.textContent = "Moderada";
+                strengthText.style.color = "#f59e0b";
             } else {
-                strengthBar.className = "password-strength";
+                strengthBar.classList.add("strong");
+                strengthText.textContent = "Fuerte";
+                strengthText.style.color = "#10b981";
             }
         }
 
         function actualizarBarraConfirmar() {
             const password = document.getElementById("confirmar_contraseña_u").value;
             const strengthBar = document.getElementById("password-strength-bar-confirmar");
-
+            
+            // Reset
+            strengthBar.className = "password-strength";
+            
+            if (password.length === 0) {
+                strengthBar.style.width = "0%";
+                return;
+            }
+            
             if (password.length < 8) {
-                strengthBar.className = "password-strength red";
-            } else if (password.length >= 8 && password.length <= 10) {
-                strengthBar.className = "password-strength orange";
-            } else if (password.length >= 11 && password.length <= 16) {
-                strengthBar.className = "password-strength green";
+                strengthBar.classList.add("weak");
+            } else if (password.length <= 10) {
+                strengthBar.classList.add("medium");
             } else {
-                strengthBar.className = "password-strength";
+                strengthBar.classList.add("strong");
             }
         }
 
         function togglePassword(id) {
             const input = document.getElementById(id);
-            input.type = input.type === "password" ? "text" : "password";
+            const button = input.nextElementSibling.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
         }
 
         function validarFormulario() {
@@ -234,5 +321,4 @@
         }
     </script>
 </body>
-
 </html>

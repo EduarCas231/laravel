@@ -4,163 +4,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Usuarios</title>
+    <title>Lista de Usuarios - ByteLab</title>
     <link rel="icon" href="{{ url('img/bitelogo.png') }}" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{{ asset('css/usuarios.css') }}">
-
- <style>
-    /* Ajustes para pantallas pequeñas */
-    @media (max-width: 768px) {
-        /* Estilo para la tabla */
-        .table-container {
-            overflow-x: auto; /* Permite desplazamiento horizontal */
-            -webkit-overflow-scrolling: touch; /* Mejora la experiencia en dispositivos táctiles */
-        }
-        
-        .table th, .table td {
-            white-space: nowrap; /* Evita que el contenido se rompa en varias líneas */
-        }
-
-        /* Estilos para los contenedores de los gráficos */
-        .chart-container {
-            width: 100%; /* El contenedor ocupa todo el ancho disponible */
-            margin: 0 auto;
-            padding: 10px;
-        }
-
-        /* Ajustar la altura de los gráficos */
-        .chart-container canvas {
-            height: 200px !important;
-        }
-
-        /* Botón flotante de la gráfica */
-        .floating-btn {
-            bottom: 10px;
-            right: 10px;
-            font-size: 1.5rem;
-            width: 50px;
-            height: 50px;
-            padding: 0;
-        }
-
-        /* Ajustes para la vista del usuario actual */
-        .current-user-container {
-            text-align: center;
-            padding: 15px;
-        }
-
-        .user-card {
-            padding: 15px;
-        }
-
-        .user-card img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .user-card h5 {
-            font-size: 1.2rem;
-        }
-
-        .user-card p {
-            font-size: 0.9rem;
-        }
-
-        .social-icons a {
-            font-size: 1.2rem;
-            margin: 0 10px;
-        }
-    }
-
-    /* Ajustes generales para pantallas más grandes */
-    @media (min-width: 769px) {
-        .table-container {
-            max-width: 100%;
-            overflow-x: auto;
-        }
-    }
-</style>
- 
 </head>
 
 <body>
-
     <!-- Barra de Navegación -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('productos') }}">
-                <img src="{{ url('img/bitelogo.png') }}" alt="Logo" width="45">
-                ByteLab
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('productos') }}">
+                <img src="{{ url('img/bitelogo.png') }}" alt="Logo" class="me-2">
+                <span class="d-none d-md-inline">ByteLab</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="offcanvas offcanvas-end text-bg-dark" id="offcanvasDarkNavbar" tabindex="-1">
+            <div class="offcanvas offcanvas-end text-bg-dark" id="offcanvasNavbar" tabindex="-1">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title">Menú</h5>
+                    <h5 class="offcanvas-title"><i class="fas fa-bars me-2"></i>Menú</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
                 </div>
                 <div class="offcanvas-body">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="{{ route('homebyte') }}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('productos') }}">Productos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('usuarios') }}">Usuarios</a></li>
-			<li class="nav-item"><a class="nav-link" href="{{ route('accesos') }}">Accesos</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('homebyte') }}">
+                                <i class="fas fa-home me-2"></i>Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('productos') }}">
+                                <i class="fas fa-box me-2"></i>Productos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ route('usuarios') }}">
+                                <i class="fas fa-users me-2"></i>Usuarios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('accesos') }}">
+                                <i class="fas fa-key me-2"></i>Accesos
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <!-- Botón de Cerrar Sesión alineado a la derecha -->
             <div class="ms-auto">
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
-                    <button type="submit" class="btn btn-danger btn-sm">Cerrar Sesión</button>
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fas fa-sign-out-alt me-1"></i>Cerrar Sesión
+                    </button>
                 </form>
             </div>
         </div>
     </nav>
 
-    <!-- Botón flotante para administradores -->
-    @if(auth()->check() && auth()->user()->tipo_u == 1)
-    <button class="btn btn-primary floating-btn" data-bs-toggle="modal" data-bs-target="#graficasModal">
-        <i class="fas fa-chart-pie"></i> Ver Gráficas
-    </button>
-    @endif
+    <!-- Contenido Principal -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+            <h3 class="mb-2 mb-md-0"><i class="fas fa-users me-2"></i>Lista de Usuarios</h3>
+            <div class="d-flex flex-wrap gap-2">
+                @if(auth()->check() && auth()->user()->tipo_u == 1)
+                <a href="{{ route('exportar.usuarios') }}" class="btn btn-success">
+                    <i class="fas fa-file-excel me-1"></i> Exportar
+                </a>
+                @endif
+                <a href="{{ route('usuarios.alta') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i> Nuevo
+                </a>
+            </div>
+        </div>
 
-    <div class="container mt-5 pt-5">
-        <h3>Lista de Usuarios</h3>
-
+        <!-- Usuario actual -->
         @if(auth()->check())
-        <div class="current-user-container">
-            <h4>¡Bienvenido {{ auth()->user()->nombre_u }}!</h4>
-            <div class="user-card">
-                <img src="{{ asset(auth()->user()->foto_u) }}" alt="Foto de {{ auth()->user()->nombre_u }}">
-                <h5>{{ auth()->user()->nombre_u }}</h5>
-                <p><strong>Correo:</strong> {{ auth()->user()->correo_u }}</p>
-                <p><strong>Teléfono:</strong> {{ auth()->user()->telefono_u }}</p>
-                <p><strong>Dirección:</strong> {{ auth()->user()->direccion_u }}</p>
-                <div>
-                    <a href="{{ route('usuarios_editar', ['id' => auth()->user()->id_usuarios]) }}" class="btn btn-success btn-sm" aria-label="Editar tu usuario">Editar</a>
-                </div>
+        <div class="user-card text-center mb-4">
+            <h4><i class="fas fa-user-circle me-2"></i>¡Bienvenido {{ auth()->user()->nombre_u }}!</h4>
+            <img src="{{ asset(auth()->user()->foto_u) }}" alt="Foto de perfil" class="img-fluid">
+            <div class="mt-3">
+                <p><i class="fas fa-envelope me-2"></i><strong>Correo:</strong> {{ auth()->user()->correo_u }}</p>
+                <p><i class="fas fa-phone me-2"></i><strong>Teléfono:</strong> {{ auth()->user()->telefono_u }}</p>
+                <a href="{{ route('usuarios_editar', ['id' => auth()->user()->id_usuarios]) }}" class="btn btn-success mt-2">
+                    <i class="fas fa-edit me-1"></i> Editar Perfil
+                </a>
             </div>
         </div>
         @endif
 
-        <div class="table-container table-desktop">
-            <table class="table table-striped table-dark">
+        <!-- Tabla de usuarios (para pantallas grandes) -->
+        <div class="table-container">
+            <table class="table table-dark table-hover">
                 <thead>
                     <tr>
-                        <th>No.</th>
+                        <th>#</th>
                         <th>Foto</th>
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Teléfono</th>
-                        <th>Dirección</th>
-                        <th>Genero</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -168,75 +112,113 @@
                     @foreach($usuarios as $usuario)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td><img src="{{ asset($usuario['foto_u']) }}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;"></td>
+                        <td><img src="{{ asset($usuario['foto_u']) }}" alt="Foto" style="width:40px;height:40px;border-radius:50%;"></td>
                         <td>{{ $usuario['nombre_u'] }}</td>
                         <td>{{ $usuario['correo_u'] }}</td>
                         <td>{{ $usuario['telefono_u'] }}</td>
-                        <td>{{ $usuario['direccion_u'] }}</td>
                         <td>
-                            @if($usuario['genero_u'] == 1)
-                            Hombre
-                            @elseif($usuario['genero_u'] == 0)
-                            Mujer
-                            @else
-                            No especificado
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{ route('usuarios.detalle', ['id' => $usuario['id_usuarios']]) }}" class="btn btn-primary btn-sm" aria-label="Ver detalles de {{ $usuario['nombre_u'] }}">Detalle</a>
-                            @if(auth()->check())
-                            @if(auth()->user()->tipo_u == 1 || auth()->user()->id == $usuario['id_usuarios'])
-                            <a href="{{ route('usuarios_editar', ['id' => $usuario['id_usuarios']]) }}" class="btn btn-success btn-sm" aria-label="Editar usuario {{ $usuario['nombre_u'] }}">Editar</a>
-                            @endif
-                            @if(auth()->user()->tipo_u == 1)
-                            <form action="{{ route('usuarios.borrar', ['id' => $usuario['id_usuarios']]) }}" method="POST" class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" aria-label="Borrar usuario {{ $usuario['nombre_u'] }}">Borrar</button>
-                            </form>
-                            @endif
-                            @endif
+                            <div class="d-flex gap-1">
+                                <a href="{{ route('usuarios.detalle', ['id' => $usuario['id_usuarios']]) }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                @if(auth()->check() && (auth()->user()->tipo_u == 1 || auth()->user()->id == $usuario['id_usuarios']))
+                                <a href="{{ route('usuarios_editar', ['id' => $usuario['id_usuarios']]) }}" class="btn btn-success btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                @endif
+                                @if(auth()->check() && auth()->user()->tipo_u == 1)
+                                <form action="{{ route('usuarios.borrar', ['id' => $usuario['id_usuarios']]) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+
+        <!-- Lista de usuarios (para móviles) -->
+        <div class="users-list">
+            @foreach($usuarios as $usuario)
+            <div class="user-list-card d-flex align-items-start">
+                <img src="{{ asset($usuario['foto_u']) }}" alt="Foto" class="user-list-img">
+                <div class="user-list-info">
+                    <h5>{{ $usuario['nombre_u'] }}</h5>
+                    <p class="mb-1"><i class="fas fa-envelope me-1"></i>{{ $usuario['correo_u'] }}</p>
+                    <p class="mb-2"><i class="fas fa-phone me-1"></i>{{ $usuario['telefono_u'] }}</p>
+                    <div class="user-list-actions">
+                        <a href="{{ route('usuarios.detalle', ['id' => $usuario['id_usuarios']]) }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        @if(auth()->check() && (auth()->user()->tipo_u == 1 || auth()->user()->id == $usuario['id_usuarios']))
+                        <a href="{{ route('usuarios_editar', ['id' => $usuario['id_usuarios']]) }}" class="btn btn-success btn-sm">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        @endif
+                        @if(auth()->check() && auth()->user()->tipo_u == 1)
+                        <form action="{{ route('usuarios.borrar', ['id' => $usuario['id_usuarios']]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
     </div>
 
-    <!-- Modal para las gráficas -->
+    <!-- Botón flotante para gráficas (solo para administradores) -->
+    @if(auth()->check() && auth()->user()->tipo_u == 1)
+    <button class="btn btn-primary floating-btn" data-bs-toggle="modal" data-bs-target="#graficasModal">
+        <i class="fas fa-chart-pie"></i>
+    </button>
+
+    <!-- Modal de gráficas -->
     <div class="modal fade" id="graficasModal" tabindex="-1" aria-labelledby="graficasModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content bg-dark text-light"> <!-- Fondo oscuro y texto claro -->
-                <div class="modal-header bg-dark border-secondary"> <!-- Fondo oscuro y borde secundario -->
-                    <h5 class="modal-title" id="graficasModalLabel">Gráficas de Usuarios</h5>
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title" id="graficasModalLabel"><i class="fas fa-chart-bar me-2"></i>Estadísticas de Usuarios</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <div class="modal-body bg-dark"> <!-- Fondo oscuro -->
+                <div class="modal-body">
                     <div class="chart-container">
                         <canvas id="tipoUsuarioChart"></canvas>
                     </div>
-                    <div class="chart-container mt-4"> <!-- Contenedor para la gráfica de género -->
+                    <div class="chart-container mt-4">
                         <canvas id="generoChart"></canvas>
                     </div>
                 </div>
-                <div class="modal-footer bg-dark border-secondary"> <!-- Fondo oscuro y borde secundario -->
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Cerrar
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+    @endif
 
     <!-- Footer -->
-    <footer class="text-center">
+    <footer class="text-center mt-4 py-3">
         <div class="container">
-            <div class="social-icons">
-                <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.whatsapp.com" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                <a href="https://twitter.com" target="_blank"><i class="fab fa-x-twitter"></i></a>
+            <div class="social-icons mb-2">
+                <a href="https://www.facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-x-twitter"></i></a>
             </div>
-            <p class="mt-3">&copy; 2024 ByteLab. Todos los derechos reservados.</p>
+            <p class="mb-0 small">&copy; 2024 ByteLab. Todos los derechos reservados.</p>
         </div>
     </footer>
 
@@ -255,12 +237,12 @@
                     label: 'Cantidad de Usuarios',
                     data: tipoUsuarioChartData.data,
                     backgroundColor: [
-                        'rgba(54, 162, 235, 0.8)', // Color para usuarios normales
-                        'rgba(255, 99, 132, 0.8)', // Color para administradores
+                        'rgba(67, 111, 177, 0.8)',  // Azul cobalto
+                        'rgba(40, 167, 69, 0.8)',   // Verde éxito
                     ],
                     borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 99, 132, 1)',
+                        'rgba(67, 111, 177, 1)',
+                        'rgba(40, 167, 69, 1)',
                     ],
                     borderWidth: 1
                 }]
@@ -271,13 +253,27 @@
                     legend: {
                         position: 'top',
                         labels: {
-                            color: '#ffffff', // Color blanco para las leyendas
+                            color: '#ffffff',
+                            font: {
+                                size: 14
+                            }
                         }
                     },
                     title: {
                         display: true,
-                        text: 'Distribución de Usuarios por Tipo',
-                        color: '#ffffff', // Color blanco para el título
+                        text: 'Distribución por Tipo de Usuario',
+                        color: '#436fb1',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#2c2c2c',
+                        titleColor: '#436fb1',
+                        bodyColor: '#ffffff',
+                        borderColor: '#436fb1',
+                        borderWidth: 1
                     }
                 }
             }
@@ -294,12 +290,14 @@
                     label: 'Cantidad de Usuarios',
                     data: generoChartData.data,
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.8)', // Color para mujeres
-                        'rgba(54, 162, 235, 0.8)', // Color para hombres
+                        'rgba(54, 162, 235, 0.8)',  // Azul
+                        'rgba(255, 99, 132, 0.8)',   // Rojo
+                        'rgba(153, 102, 255, 0.8)'   // Morado
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 1)',
                         'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(153, 102, 255, 1)'
                     ],
                     borderWidth: 1
                 }]
@@ -310,13 +308,27 @@
                     legend: {
                         position: 'top',
                         labels: {
-                            color: '#ffffff', // Color blanco para las leyendas
+                            color: '#ffffff',
+                            font: {
+                                size: 14
+                            }
                         }
                     },
                     title: {
                         display: true,
-                        text: 'Distribución de Usuarios por Género',
-                        color: '#ffffff', // Color blanco para el título
+                        text: 'Distribución por Género',
+                        color: '#436fb1',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#2c2c2c',
+                        titleColor: '#436fb1',
+                        bodyColor: '#ffffff',
+                        borderColor: '#436fb1',
+                        borderWidth: 1
                     }
                 }
             }

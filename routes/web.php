@@ -76,6 +76,14 @@ Route::get('exportar-productos', function () {
     return Excel::download(new ProductosExport, 'productos.xlsx');
 })->name('exportar.productos');
 
+use App\Exports\UsertExport;
+
+
+Route::get('exportar-usuarios', [ExcellController::class, 'exportarUsuarios'])
+    ->name('exportar.usuarios');
+
+Route::get('exportar-accesos', [ExcellController::class, 'exportarAccesos'])
+    ->name('exportar.accesos');
 
 // routes/web.php
 Route::get('/accesos', [ControllerApi::class, 'acceso'])->name('accesos');

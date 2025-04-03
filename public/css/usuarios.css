@@ -1,87 +1,126 @@
-/* Estilos generales */
+/* Variables de color */
 :root {
-    --background-color: #1a1a1a; /* Fondo más oscuro */
-    --text-color: #e0e0e0; /* Texto claro */
-    --primary-color: #436fb1; /* Azul cobalto */
-    --primary-hover: #365a8c; /* Azul cobalto más oscuro */
-    --footer-bg: #121212; /* Fondo del footer más oscuro */
-    --footer-text: #436fb1; /* Azul cobalto */
-    --card-bg: #2c2c2c; /* Fondo de tarjetas más oscuro */
+    --background-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --primary-color: #436fb1;
+    --primary-hover: #365a8c;
+    --footer-bg: #121212;
+    --footer-text: #436fb1;
+    --card-bg: #2c2c2c;
+    --table-bg: #343a40;
+    --image-bg: #252525;
+    --modal-bg: #2c2c2c;
+    --modal-border: #436fb1;
 }
 
+/* Estilos Base */
 body {
     background-color: var(--background-color);
     color: var(--text-color);
-    padding-top: 70px;
+    padding-top: 56px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Barra de Navegación */
+/* Navbar optimizada para móviles */
 .navbar {
-    background-color: var(--footer-bg); /* Fondo oscuro */
-    border-bottom: 2px solid var(--primary-color); /* Borde inferior en azul cobalto */
+    background-color: var(--footer-bg) !important;
+    border-bottom: 2px solid var(--primary-color);
+    padding: 0.5rem 1rem;
 }
 
-.navbar-brand, .nav-link {
-    color: var(--text-color) !important; /* Texto claro */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
-.nav-link:hover {
-    color: var(--primary-color) !important; /* Hover en azul cobalto */
+.navbar-brand img {
+    width: 30px;
+    height: 30px;
 }
 
-.btn-danger {
-    background-color: var(--primary-color); /* Botón de Cerrar Sesión en azul cobalto */
-    border: none;
+.nav-link {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.95rem;
 }
 
-.btn-danger:hover {
-    background-color: var(--primary-hover); /* Hover un poco más oscuro */
+/* Contenedor principal */
+.container {
+    padding: 0 15px;
 }
 
-/* Tarjetas de Usuarios */
+/* Tarjeta de usuario actual */
 .user-card {
-    background-color: var(--card-bg); /* Fondo de tarjetas más oscuro */
-    border: 1px solid var(--primary-color); /* Borde en azul cobalto */
+    background-color: var(--card-bg);
+    border: 1px solid var(--primary-color);
     border-radius: 10px;
-    padding: 20px;
-    margin: 10px 0;
+    padding: 15px;
+    margin-bottom: 20px;
 }
 
 .user-card img {
-    border-radius: 50%;
     width: 80px;
     height: 80px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
     object-fit: cover;
+}
+
+/* Tabla para pantallas grandes */
+.table-container {
+    display: block;
+    overflow-x: auto;
+}
+
+.table-dark {
+    display: table;
+    width: 100%;
+    background-color: var(--table-bg);
+}
+
+/* Lista de tarjetas para móviles */
+.users-list {
+    display: none;
+}
+
+.user-list-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 15px;
     margin-bottom: 15px;
 }
 
-.user-card h5 {
-    color: var(--primary-color); /* Título en azul cobalto */
+.user-list-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid var(--primary-color);
 }
 
-.user-card p {
-    color: var(--text-color); /* Texto claro */
+.user-list-info {
+    flex: 1;
 }
 
-/* Footer */
-footer {
-    background-color: var(--footer-bg); /* Fondo del footer más oscuro */
-    color: var(--footer-text); /* Texto en azul cobalto */
-    padding: 20px 0;
-    margin-top: 40px;
+.user-list-actions {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
 }
 
-.social-icons a {
-    color: var(--footer-text); /* Iconos en azul cobalto */
-    margin: 0 10px;
-    font-size: 1.5rem;
+/* Botones */
+.btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.85rem;
+    transition: all 0.3s;
 }
 
-.social-icons a:hover {
-    color: var(--primary-hover); /* Hover un poco más oscuro */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
 }
 
-/* Botones Primarios */
 .btn-primary {
     background-color: var(--primary-color);
     border: none;
@@ -89,4 +128,95 @@ footer {
 
 .btn-primary:hover {
     background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Botón flotante */
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal de gráficas */
+.modal-content {
+    background-color: var(--modal-bg);
+    border: 1px solid var(--modal-border);
+}
+
+.modal-header, .modal-footer {
+    border-color: var(--modal-border) !important;
+}
+
+.chart-container {
+    height: 250px;
+    margin-bottom: 20px;
+}
+
+/* Footer optimizado */
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 15px 0;
+    font-size: 0.9rem;
+}
+
+.social-icons a {
+    color: var(--footer-text);
+    font-size: 1.25rem;
+    margin: 0 10px;
+    transition: all 0.3s;
+}
+
+.social-icons a:hover {
+    color: var(--primary-hover);
+    transform: translateY(-3px);
+}
+
+/* Media Queries */
+@media (max-width: 767.98px) {
+    .table-container {
+        display: none;
+    }
+    
+    .users-list {
+        display: block;
+    }
+    
+    .navbar-brand span {
+        display: none;
+    }
+    
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .d-flex.justify-content-between > div {
+        width: 100%;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
+@media (min-width: 768px) {
+    .table-container {
+        display: block;
+    }
+    
+    .users-list {
+        display: none;
+    }
 }

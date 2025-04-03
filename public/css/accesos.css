@@ -1,0 +1,285 @@
+/* Variables de color */
+:root {
+    --background-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --primary-color: #436fb1;
+    --primary-hover: #365a8c;
+    --footer-bg: #121212;
+    --footer-text: #436fb1;
+    --card-bg: #2c2c2c;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --filter-bg: #252525;
+    --filter-border: #3a3a3a;
+    --filter-focus: #4a7bc1;
+}
+
+/* Estilos Base */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding-top: 70px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--footer-bg) !important;
+    border-bottom: 2px solid var(--primary-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.navbar-brand img {
+    width: 35px;
+    height: 35px;
+    transition: transform 0.3s;
+}
+
+.navbar-brand:hover img {
+    transform: rotate(15deg);
+}
+
+.nav-link {
+    color: var(--text-color) !important;
+    padding: 8px 15px !important;
+    border-radius: 5px;
+    margin: 0 2px;
+    transition: all 0.3s;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: rgba(67, 111, 177, 0.2);
+    color: var(--primary-color) !important;
+}
+
+/* Filtros Mejorados */
+.filtros-container {
+    background-color: var(--filter-bg);
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border: 1px solid var(--filter-border);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.filtros-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--filter-border);
+}
+
+.filtros-header h4 {
+    margin: 0;
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1.25rem;
+}
+
+.filtros-header i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+.filtro-group {
+    margin-bottom: 20px;
+}
+
+.filtro-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.filtro-group .form-control,
+.filtro-group .form-select {
+    background-color: var(--card-bg);
+    border: 1px solid var(--filter-border);
+    color: var(--text-color);
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.filtro-group .form-control:focus,
+.filtro-group .form-select:focus {
+    border-color: var(--filter-focus);
+    box-shadow: 0 0 0 0.25rem rgba(67, 111, 177, 0.25);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+.filter-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.btn-filtrar {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-filtrar:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-limpiar {
+    background-color: #5a6268;
+    border: none;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-limpiar:hover {
+    background-color: #4a5257;
+    transform: translateY(-2px);
+}
+
+/* Tabla de accesos */
+.access-table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.access-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.access-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+.access-table tr:last-child td {
+    border-bottom: none;
+}
+
+.access-table tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.access-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.permitido {
+    color: var(--success-color) !important;
+    font-weight: 600;
+}
+
+.denegado {
+    color: var(--danger-color) !important;
+    font-weight: 600;
+}
+
+.nuevo-registro {
+    background-color: rgba(255, 193, 7, 0.2) !important;
+    animation: resaltar 3s ease-out;
+}
+
+@keyframes resaltar {
+    0% { background-color: rgba(255, 193, 7, 0.4); }
+    100% { background-color: rgba(255, 193, 7, 0.2); }
+}
+
+/* Paginación */
+.pagination {
+    margin-top: 30px;
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.page-link {
+    color: var(--primary-color);
+    background-color: var(--card-bg);
+    border: 1px solid var(--filter-border);
+}
+
+.page-link:hover {
+    color: var(--primary-hover);
+    background-color: var(--filter-bg);
+    border-color: var(--filter-border);
+}
+
+/* Footer */
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 25px 0;
+    margin-top: 50px;
+    border-top: 1px solid var(--primary-color);
+}
+
+.social-icons {
+    margin-bottom: 15px;
+}
+
+.social-icons a {
+    color: var(--footer-text);
+    margin: 0 12px;
+    font-size: 22px;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.social-icons a:hover {
+    color: var(--primary-hover);
+    transform: translateY(-3px);
+}
+
+/* Media Queries para móviles */
+@media (max-width: 768px) {
+    .access-table th, 
+    .access-table td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    
+    .navbar-brand span {
+        display: none;
+    }
+    
+    .filtros-container {
+        padding: 15px;
+    }
+    
+    .filter-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-filtrar, .btn-limpiar {
+        width: 100%;
+    }
+}

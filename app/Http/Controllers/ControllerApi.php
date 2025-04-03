@@ -80,7 +80,7 @@ class ControllerApi extends Controller
             'foto_u' => 'nullable|image|mimes:jpg,png,bmp',
         ]);
 
-        $img2 = "default.jpg";
+        $img2 = "def.avif";
         if ($request->hasFile('foto_u')) {
             $file = $request->file('foto_u');
             $img = $file->getClientOriginalName();
@@ -408,7 +408,7 @@ class ControllerApi extends Controller
             $accesos = Acceso::when($ultimaFecha, function ($query) use ($ultimaFecha) {
                 return $query->where('fecha', '>', $ultimaFecha);
             })
-            ->orderBy('fecha', 'desc') // Ordenar por fecha descendente
+            ->orderBy('fecha', 'desc')
             ->get();
     
             // Si no hay nuevos accesos, devolver una respuesta vacía o un mensaje de espera
@@ -420,10 +420,11 @@ class ControllerApi extends Controller
             return response()->json($accesos);
         }
     
-        $accesos = Acceso::orderBy('fecha', 'desc')->get();
+        // Modificado para usar paginación en la vista principal
+        $accesos = Acceso::orderBy('fecha', 'desc')->paginate(15); // Cambiado get() por paginate()
+        
         return view('acceso', compact('accesos'));
     }
-    
     
 
     

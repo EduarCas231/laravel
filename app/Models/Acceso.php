@@ -15,6 +15,7 @@ class Acceso extends Model
     // Especifica los campos que son asignables de manera masiva
     protected $fillable = [
         'accion',
+        'nombre',
         'codigo',
         'fecha',
     ];
