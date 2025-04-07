@@ -5,6 +5,7 @@ use App\Http\Controllers\ControllerApi;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExcellController;
 
+
 /*
 |--------------------------------------------------------------------------
 
@@ -87,3 +88,12 @@ Route::get('exportar-accesos', [ExcellController::class, 'exportarAccesos'])
 
 // routes/web.php
 Route::get('/accesos', [ControllerApi::class, 'acceso'])->name('accesos');
+
+
+// En routes/web.php
+Route::get('/controlar-puerta', function () {
+    return view('controlar_puerta');  // Vista 'controlar_puerta.blade.php'
+});
+
+Route::post('/controlar-puerta', [ControllerApi::class, 'controlarPuerta'])->name('controlar.puerta');
+

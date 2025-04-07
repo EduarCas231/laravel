@@ -138,7 +138,7 @@ class ControllerApi extends Controller
     public function usuarios_editar($id)
     {
         // Llamar a la API para obtener el usuario
-       $response = Http::get("http://18.220.227.25/usuarios/{$id}");
+        $response = Http::get("http://18.220.227.25/usuarios/{$id}");
 
         if ($response->successful()) {
             $usuario = $response->json();
@@ -159,7 +159,7 @@ class ControllerApi extends Controller
             'telefono_u' => 'required',
             'direccion_u' => 'required',
             'genero_u' => 'required',
-	    'tipo_u' => 'required',
+            'tipo_u' => 'required',
             'fecha_u' => 'required|date',
             'foto_u' => 'nullable|image|mimes:jpg,png,bmp',
         ]);
@@ -199,12 +199,12 @@ class ControllerApi extends Controller
         // Actualizar contraseña si se proporciona
         if ($request->filled('contraseña_u')) {
             $data['contraseña_u'] = Hash::make($request->input('contraseña_u'));
-        }else {
-	$data['contraseña_u'] = $usuario['contraseña_u'];
-	}
+        } else {
+            $data['contraseña_u'] = $usuario['contraseña_u'];
+        }
 
         // Llamar a la API para actualizar el usuario
-       $response = Http::put("18.220.227.25/usuarios/actualizar_completo/{$id}", $data);
+        $response = Http::put("18.220.227.25/usuarios/actualizar_completo/{$id}", $data);
 
         if ($response->successful()) {
             return redirect()->route('usuarios.detalle', ['id' => $id])->with('success', 'Usuario actualizado correctamente.');
@@ -228,51 +228,51 @@ class ControllerApi extends Controller
 
     // productos
     public function productos(Request $request)
-{
-    $buscar = $request->input('buscar', '');
+    {
+        $buscar = $request->input('buscar', '');
 
-    // Consultar la API externa
-    $response = Http::get('http://18.220.227.25/productos');
-    if ($response->successful()) {
-        $productos = $response->json();
+        // Consultar la API externa
+        $response = Http::get('http://18.220.227.25/productos');
+        if ($response->successful()) {
+            $productos = $response->json();
 
-        // Filtrar productos si se realiza una búsqueda
-        if ($buscar) {
-            $productos = collect($productos)->filter(function ($producto) use ($buscar) {
-                return stripos($producto['name_p'], $buscar) !== false ||
-                    stripos($producto['modelo_p'], $buscar) !== false;
-            });
+            // Filtrar productos si se realiza una búsqueda
+            if ($buscar) {
+                $productos = collect($productos)->filter(function ($producto) use ($buscar) {
+                    return stripos($producto['name_p'], $buscar) !== false ||
+                        stripos($producto['modelo_p'], $buscar) !== false;
+                });
+            } else {
+                $productos = collect($productos);
+            }
+
+            // Paginación manual
+            $page = $request->input('page', 1); // Obtener el número de página actual
+            $perPage = 2;
+            $offset = ($page - 1) * $perPage;
+
+            // Obtener los elementos de la página actual
+            $paginatedItems = $productos->slice($offset, $perPage)->values();
+
+            // Crear una instancia de LengthAwarePaginator
+            $productos = new LengthAwarePaginator(
+                $paginatedItems, // Elementos de la página actual
+                $productos->count(), // Total de elementos
+                $perPage, // Elementos por página
+                $page, // Página actual
+                ['path' => $request->url(), 'query' => $request->query()] // Opciones de URL
+            );
+
+            // Retornar la vista con los productos paginados
+            return view('productos', compact('productos', 'buscar'));
         } else {
-            $productos = collect($productos);
+            // Manejar el error de la API
+            return response()->json(['error' => 'Error al consultar la API'], 500);
         }
-
-        // Paginación manual
-        $page = $request->input('page', 1); // Obtener el número de página actual
-        $perPage = 2; 
-        $offset = ($page - 1) * $perPage;
-
-        // Obtener los elementos de la página actual
-        $paginatedItems = $productos->slice($offset, $perPage)->values();
-
-        // Crear una instancia de LengthAwarePaginator
-        $productos = new LengthAwarePaginator(
-            $paginatedItems, // Elementos de la página actual
-            $productos->count(), // Total de elementos
-            $perPage, // Elementos por página
-            $page, // Página actual
-            ['path' => $request->url(), 'query' => $request->query()] // Opciones de URL
-        );
-
-        // Retornar la vista con los productos paginados
-        return view('productos', compact('productos', 'buscar'));
-    } else {
-        // Manejar el error de la API
-        return response()->json(['error' => 'Error al consultar la API'], 500);
     }
-}
     public function producto_detalle($id)
     {
-       $response = Http::get("http://18.220.227.25/productos/{$id}");
+        $response = Http::get("http://18.220.227.25/productos/{$id}");
         if ($response->successful()) {
             $producto = $response->json();
             return view('producto_detalle', compact('producto'));
@@ -378,7 +378,7 @@ class ControllerApi extends Controller
             'foto_p'    => $img2,
         ];
 
-       $response = Http::put("http://18.220.227.25/productos/{$id}", $data);
+        $response = Http::put("http://18.220.227.25/productos/{$id}", $data);
 
         if ($response->successful()) {
             return redirect()->route('producto_detalle', ['id' => $id])->with('success', 'Producto actualizado correctamente.');
@@ -390,7 +390,7 @@ class ControllerApi extends Controller
     public function producto_borrar($id)
     {
         // Llamar a la API para eliminar el producto
-       $response = Http::delete("http://18.220.227.25/productos/{$id}");
+        $response = Http::delete("http://18.220.227.25/productos/{$id}");
         if ($response->successful()) {
             return redirect()->route('productos')->with('success', 'Producto eliminado correctamente.');
         } else {
@@ -402,33 +402,60 @@ class ControllerApi extends Controller
     public function acceso(Request $request)
     {
         $ultimaFecha = $request->query('ultima_fecha');
-    
+
         if ($request->ajax()) {
             // Verificar si hay nuevos accesos después de la última fecha
             $accesos = Acceso::when($ultimaFecha, function ($query) use ($ultimaFecha) {
                 return $query->where('fecha', '>', $ultimaFecha);
             })
-            ->orderBy('fecha', 'desc')
-            ->get();
-    
+                ->orderBy('fecha', 'desc')
+                ->get();
+
             // Si no hay nuevos accesos, devolver una respuesta vacía o un mensaje de espera
             if ($accesos->isEmpty()) {
                 return response()->json(['waiting' => true]);
             }
-    
+
             // Devolver los accesos nuevos
             return response()->json($accesos);
         }
-    
+
         // Modificado para usar paginación en la vista principal
         $accesos = Acceso::orderBy('fecha', 'desc')->paginate(15); // Cambiado get() por paginate()
-        
+
         return view('acceso', compact('accesos'));
     }
-    
 
-    
+    public function controlarPuerta(Request $request)
+{
+    // Obtener la acción de la solicitud
+    $accion = $request->input('accion');  // Puede ser 'abrir' o 'cerrar'
 
+    // Verificar que la acción esté definida correctamente
+    if ($accion != 'abrir' && $accion != 'cerrar') {
+        return response()->json(['error' => 'Acción no válida'], 400);  // Error si la acción no es válida
+    }
 
+    // Dirección de la API de Flask para controlar la puerta
+    $url = 'http://3.22.41.55/control_puerta';  // Reemplaza <FLASK_SERVER_IP> con la IP de tu servidor Flask
+
+    // Enviar solicitud POST a la API de Flask
+    $response = Http::withHeaders([
+        'X-API-Key' => 'ClaveSeguraByteLab',  // Tu clave de autenticación
+    ])->post($url, [
+        'accion' => $accion,  // Solo enviamos la acción
+    ]);
+
+    // Verificar si la respuesta de la API de Flask es exitosa
+    if ($response->successful()) {
+        return response()->json([
+            'message' => 'La puerta se ha ' . $accion . ' correctamente.'  // Mensaje de éxito
+        ]);
+    } else {
+        return response()->json([
+            'error' => 'Error al controlar la puerta: ' . $response->body()
+        ], 400);  // Error si la API de Flask falla
+    }
     
+}
 }

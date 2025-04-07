@@ -49,6 +49,11 @@
                                 <i class="fas fa-key me-2"></i>Accesos
                             </a>
                         </li>
+                        <li class="nav-item">
+    <a class="nav-link" href="{{ route('controlar.puerta') }}">
+        <i class="fas fa-door-open me-2"></i>Control Puerta
+    </a>
+</li>
                     </ul>
                 </div>
             </div>

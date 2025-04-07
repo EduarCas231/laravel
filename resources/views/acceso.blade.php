@@ -48,6 +48,11 @@
                                 <i class="fas fa-key me-2"></i>Accesos
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('controlar.puerta') }}">
+                                <i class="fas fa-door-open me-2"></i>Control Puerta
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -62,17 +67,18 @@
         </div>
     </nav>
 
+
     <!-- Contenido Principal -->
     <div class="container mt-5 pt-4">
         <h1 class="text-center mb-4"><i class="fas fa-door-open me-2"></i>Registro de Accesos</h1>
-        
+
         <!-- Sección de Filtros Mejorada -->
         <div class="filtros-container">
             <div class="filtros-header">
                 <i class="fas fa-filter"></i>
                 <h4>Filtrar Registros</h4>
             </div>
-            
+
             <form id="form-filtros">
                 <div class="row">
                     <div class="col-md-4">
@@ -81,7 +87,7 @@
                             <input type="text" class="form-control" id="filtro-usuario" placeholder="Ej: Juan Pérez">
                         </div>
                     </div>
-                    
+
                     <div class="col-md-4">
                         <div class="filtro-group">
                             <label for="filtro-accion"><i class="fas fa-exchange-alt me-2"></i>Acción</label>
@@ -92,7 +98,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-4">
                         <div class="filtro-group">
                             <label for="filtro-fecha"><i class="fas fa-calendar me-2"></i>Fecha específica</label>
@@ -100,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <div class="filtro-group">
@@ -108,7 +114,7 @@
                             <input type="date" class="form-control" id="filtro-fecha-inicio">
                         </div>
                     </div>
-                    
+
                     <div class="col-md-6">
                         <div class="filtro-group">
                             <label for="filtro-fecha-fin"><i class="fas fa-calendar-day me-2"></i>Fecha fin</label>
@@ -116,7 +122,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="filter-actions">
                     <button type="button" id="btn-limpiar" class="btn btn-limpiar">
                         <i class="fas fa-broom me-2"></i>Limpiar filtros
@@ -137,7 +143,7 @@
             </a>
         </div>
         @endif
-        
+
         <div class="table-responsive">
             <table class="access-table">
                 <thead>
@@ -149,25 +155,25 @@
                 </thead>
                 <tbody id="tabla-accesos">
                     @foreach ($accesos as $acceso)
-                        <tr>
-                            <td>
-                                <i class="fas fa-user-circle me-2"></i>
-                                {{ $acceso->nombre ?? 'Invitado' }}
-                            </td>
-                            <td class="{{ $acceso->accion == 'acceso permitido' ? 'permitido' : 'denegado' }}">
-                                <i class="fas {{ $acceso->accion == 'acceso permitido' ? 'fa-check-circle' : 'fa-times-circle' }} me-2"></i>
-                                {{ ucfirst($acceso->accion) }}
-                            </td>
-                            <td>
-                                <i class="far fa-clock me-2"></i>
-                                {{ $acceso->fecha }}
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            <i class="fas fa-user-circle me-2"></i>
+                            {{ $acceso->nombre ?? 'Invitado' }}
+                        </td>
+                        <td class="{{ $acceso->accion == 'acceso permitido' ? 'permitido' : 'denegado' }}">
+                            <i class="fas {{ $acceso->accion == 'acceso permitido' ? 'fa-check-circle' : 'fa-times-circle' }} me-2"></i>
+                            {{ ucfirst($acceso->accion) }}
+                        </td>
+                        <td>
+                            <i class="far fa-clock me-2"></i>
+                            {{ $acceso->fecha }}
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-        
+
         <!-- Paginación -->
         @if($accesos->hasPages())
         <div class="d-flex justify-content-center mt-4">
@@ -191,92 +197,92 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let ultimaFecha = "{{ $accesos->first()->fecha ?? '' }}";
-        
-        // Función para aplicar filtros
-        function aplicarFiltros() {
-            const usuario = $('#filtro-usuario').val().toLowerCase();
-            const accion = $('#filtro-accion').val();
-            const fecha = $('#filtro-fecha').val();
-            const fechaInicio = $('#filtro-fecha-inicio').val();
-            const fechaFin = $('#filtro-fecha-fin').val();
-            
-            $('#tabla-accesos tr').each(function() {
-                const fila = $(this);
-                const textoUsuario = fila.find('td:eq(0)').text().toLowerCase();
-                const textoAccion = fila.find('td:eq(1)').text().toLowerCase();
-                const textoFecha = fila.find('td:eq(2)').text();
-                const fechaAcceso = textoFecha.split(' ')[0];
-                
-                let coincide = true;
-                
-                if (usuario && !textoUsuario.includes(usuario)) {
-                    coincide = false;
-                }
-                
-                if (accion && !textoAccion.includes(accion.toLowerCase())) {
-                    coincide = false;
-                }
-                
-                if (fecha && fechaAcceso !== fecha) {
-                    coincide = false;
-                }
-                
-                if ((fechaInicio && fechaAcceso < fechaInicio) || 
-                    (fechaFin && fechaAcceso > fechaFin)) {
-                    coincide = false;
-                }
-                
-                fila.toggle(coincide);
-            });
-        }
-        
-        $('#btn-filtrar').click(aplicarFiltros);
-        
-        $('#btn-limpiar').click(function() {
-            $('#form-filtros')[0].reset();
-            $('#tabla-accesos tr').show();
-        });
-        
-        function actualizarAccesos() {
-            const filtros = {
-                usuario: $('#filtro-usuario').val(),
-                accion: $('#filtro-accion').val(),
-                fecha: $('#filtro-fecha').val(),
-                fecha_inicio: $('#filtro-fecha-inicio').val(),
-                fecha_fin: $('#filtro-fecha-fin').val(),
-                ultima_fecha: ultimaFecha
-            };
-            
-            const hayFiltros = Object.values(filtros).some(val => val && val !== ultimaFecha);
-            
-            if (!hayFiltros) {
-                fetch('/accesos' + (ultimaFecha ? `?ultima_fecha=${encodeURIComponent(ultimaFecha)}` : ''), {
-                    headers: { 
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Accept': 'application/json'
+        document.addEventListener("DOMContentLoaded", function() {
+            let ultimaFecha = "{{ $accesos->first()->fecha ?? '' }}";
+
+            // Función para aplicar filtros
+            function aplicarFiltros() {
+                const usuario = $('#filtro-usuario').val().toLowerCase();
+                const accion = $('#filtro-accion').val();
+                const fecha = $('#filtro-fecha').val();
+                const fechaInicio = $('#filtro-fecha-inicio').val();
+                const fechaFin = $('#filtro-fecha-fin').val();
+
+                $('#tabla-accesos tr').each(function() {
+                    const fila = $(this);
+                    const textoUsuario = fila.find('td:eq(0)').text().toLowerCase();
+                    const textoAccion = fila.find('td:eq(1)').text().toLowerCase();
+                    const textoFecha = fila.find('td:eq(2)').text();
+                    const fechaAcceso = textoFecha.split(' ')[0];
+
+                    let coincide = true;
+
+                    if (usuario && !textoUsuario.includes(usuario)) {
+                        coincide = false;
                     }
-                })
-                .then(response => {
-                    if (!response.ok) throw new Error('Error en la respuesta');
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.length > 0) {
-                        let tbody = document.getElementById("tabla-accesos");
-                        
-                        data.forEach(acceso => {
-                            let fila = document.createElement("tr");
-                            fila.classList.add("nuevo-registro");
-                            
-                            let iconoAccion = acceso.accion === "acceso permitido" ? 
-                                '<i class="fas fa-check-circle me-2"></i>' : 
-                                '<i class="fas fa-times-circle me-2"></i>';
-                            
-                            fila.innerHTML = `
+
+                    if (accion && !textoAccion.includes(accion.toLowerCase())) {
+                        coincide = false;
+                    }
+
+                    if (fecha && fechaAcceso !== fecha) {
+                        coincide = false;
+                    }
+
+                    if ((fechaInicio && fechaAcceso < fechaInicio) ||
+                        (fechaFin && fechaAcceso > fechaFin)) {
+                        coincide = false;
+                    }
+
+                    fila.toggle(coincide);
+                });
+            }
+
+            $('#btn-filtrar').click(aplicarFiltros);
+
+            $('#btn-limpiar').click(function() {
+                $('#form-filtros')[0].reset();
+                $('#tabla-accesos tr').show();
+            });
+
+            function actualizarAccesos() {
+                const filtros = {
+                    usuario: $('#filtro-usuario').val(),
+                    accion: $('#filtro-accion').val(),
+                    fecha: $('#filtro-fecha').val(),
+                    fecha_inicio: $('#filtro-fecha-inicio').val(),
+                    fecha_fin: $('#filtro-fecha-fin').val(),
+                    ultima_fecha: ultimaFecha
+                };
+
+                const hayFiltros = Object.values(filtros).some(val => val && val !== ultimaFecha);
+
+                if (!hayFiltros) {
+                    fetch('/accesos' + (ultimaFecha ? `?ultima_fecha=${encodeURIComponent(ultimaFecha)}` : ''), {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'Accept': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) throw new Error('Error en la respuesta');
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.length > 0) {
+                                let tbody = document.getElementById("tabla-accesos");
+
+                                data.forEach(acceso => {
+                                    let fila = document.createElement("tr");
+                                    fila.classList.add("nuevo-registro");
+
+                                    let iconoAccion = acceso.accion === "acceso permitido" ?
+                                        '<i class="fas fa-check-circle me-2"></i>' :
+                                        '<i class="fas fa-times-circle me-2"></i>';
+
+                                    fila.innerHTML = `
                                 <td>
                                     <i class="fas fa-user-circle me-2"></i>
                                     ${acceso.nombre || 'Invitado'}
@@ -289,26 +295,26 @@
                                     ${acceso.fecha}
                                 </td>
                             `;
-                            
-                            tbody.insertBefore(fila, tbody.firstChild);
+
+                                    tbody.insertBefore(fila, tbody.firstChild);
+                                });
+
+                                ultimaFecha = data[0].fecha;
+                            }
+
+                            setTimeout(actualizarAccesos, 5000);
+                        })
+                        .catch(error => {
+                            console.error("Error al obtener los accesos:", error);
+                            setTimeout(actualizarAccesos, 10000);
                         });
-
-                        ultimaFecha = data[0].fecha;
-                    }
-
+                } else {
                     setTimeout(actualizarAccesos, 5000);
-                })
-                .catch(error => {
-                    console.error("Error al obtener los accesos:", error);
-                    setTimeout(actualizarAccesos, 10000);
-                });
-            } else {
-                setTimeout(actualizarAccesos, 5000);
+                }
             }
-        }
 
-        actualizarAccesos();
-    });
+            actualizarAccesos();
+        });
     </script>
 </body>
 
